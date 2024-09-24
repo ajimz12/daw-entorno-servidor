@@ -1,0 +1,12 @@
+body {
+  text-align: center;
+  font-size: 30px;
+}
+
+label {
+  font-size: 20px;
+}
+
+input[type="text"],  [type="password"]{
+  font-size: 20px;
+}

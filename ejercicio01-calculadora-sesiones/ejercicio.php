@@ -12,11 +12,19 @@ if (!isset($_SESSION["number"])) {
     $_SESSION['number'] = 0;
 }
 
-if (isset($_GET['sum'])) {
-    $_SESSION['number'] += $_GET['sum'];
+if (isset($_GET['op'])) {
+
+    if ($_GET['op'] == 'Sumar')
+        $_SESSION['number'] += $_GET['number'];
+    else if ($_GET['op'] == "Restar")
+        $_SESSION['number'] -= intval($_GET['number']);
+    else if ($_GET['op'] == "Multiplicar")
+        $_SESSION['number'] *= intval($_GET['number']);
+    else if ($_GET['op'] == "Dividir")
+        $_SESSION['number'] /= intval($_GET['number']);
 
     if (isset($_SESSION['username'])) {
-        $stmt = $db->prepare("UPDATE users SET number = ? WHERE user_id = ?");
+        $stmt = $db->prepare(query: "UPDATE users SET number = ? WHERE user_id = ?");
         $stmt->bind_param("ii", $_SESSION["number"], $_SESSION["user_id"]);
         $stmt->execute();
     }
@@ -24,12 +32,13 @@ if (isset($_GET['sum'])) {
     header(header: 'location: ejercicio.php');
 }
 
-
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $stmt = $db->prepare('SELECT user_id, password, number FROM users WHERE username = ?');
+    $query = "SELECT user_id, password, number FROM users WHERE username = ?";
+
+    $stmt = $db->prepare($query);
     $stmt->bind_param('s', $username);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -63,9 +72,11 @@ if (isset($_GET['logout'])) {
 <body>
 
     <nav>
-        <a href="?action=sum">Sumar</a>&nbsp;
+        <a href="?action=sum">Operación</a>&nbsp;
         <a href="?action=login">Login</a>
     </nav>
+
+    <hr>
 
     <div>
         <?php
@@ -77,18 +88,29 @@ if (isset($_GET['logout'])) {
         }
 
         if ($action == "sum") {
+            echo "<p><b>Operación</b></p>";
             echo "<p>" . $_SESSION['number'] . "</p>";
-            echo '<a href="?sum=2">+2</a>&nbsp;';
-            echo '<a href="?sum=3">+3</a>';
+        ?>
+
+            <form action="ejercicio.php" method="GET">
+                <input type="number" name="number" placeholder="Numero" required><br><br>
+
+                <input type="submit" name="op" value="Sumar">
+                <input type="submit" name="op" value="Restar">
+                <input type="submit" name="op" value="Multiplicar">
+                <input type="submit" name="op" value="Dividir">
+
+            </form>
+
+            <?php
         }
 
         if ($action == "login") {
             if (isset($_SESSION['username'])) {
-
                 echo "<p>Bienvenido, " . $_SESSION['username'] . "</p>";
                 echo '<a href="?logout">Cerrar sesión</a>';
             } else {
-        ?>
+            ?>
                 <p><b>Iniciar sesión</b></p>
                 <form action="?action=login" method="POST">
                     <label for="username">Usuario:</label>
@@ -103,7 +125,6 @@ if (isset($_GET['logout'])) {
 
             }
         }
-
         ?>
     </div>
 
