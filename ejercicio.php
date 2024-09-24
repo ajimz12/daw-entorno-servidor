@@ -16,7 +16,7 @@ if (isset($_GET['sum'])) {
     $_SESSION['number'] += $_GET['sum'];
 
     if (isset($_SESSION['username'])) {
-        $stmt = $db->prepare("UPDATE users SET number = ? WHERE id = ?");
+        $stmt = $db->prepare("UPDATE users SET number = ? WHERE user_id = ?");
         $stmt->bind_param("ii", $_SESSION["number"], $_SESSION["user_id"]);
         $stmt->execute();
     }
@@ -36,9 +36,9 @@ if (isset($_POST['login'])) {
 
     if ($row = $result->fetch_assoc()) {
         if ($row['password'] == md5($_POST['password'])) {
-            $_SESSION['user_id'] = $username['user_id'];
+            $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['username'] = $username;
-            $_SESSION['number'] = $username['number'];
+            $_SESSION['number'] = $row['number'];
         }
     }
 }
@@ -86,7 +86,7 @@ if (isset($_GET['logout'])) {
             if (isset($_SESSION['username'])) {
 
                 echo "<p>Bienvenido, " . $_SESSION['username'] . "</p>";
-                echo '<a href="?logout=true">Cerrar sesión</a>';
+                echo '<a href="?logout">Cerrar sesión</a>';
             } else {
         ?>
                 <p><b>Iniciar sesión</b></p>
@@ -103,6 +103,7 @@ if (isset($_GET['logout'])) {
 
             }
         }
+
         ?>
     </div>
 
