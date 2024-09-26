@@ -65,7 +65,7 @@ if (isset($_GET['logout'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicio</title>
+    <title>Ejercicio 01</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -99,7 +99,6 @@ if (isset($_GET['logout'])) {
                 <input type="submit" name="op" value="Restar">
                 <input type="submit" name="op" value="Multiplicar">
                 <input type="submit" name="op" value="Dividir">
-
             </form>
 
             <?php
