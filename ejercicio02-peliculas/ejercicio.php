@@ -8,9 +8,8 @@ $db = new mysqli($hostname, $user, "", $database);
 
 session_start();
 
-function showMovies($db)
+function showMovies($db, $query)
 {
-    $query = "SELECT * FROM peliculas";
     $stmt = $db->prepare($query);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -71,11 +70,24 @@ if (isset($_POST['login'])) {
     }
 }
 
-$query = "SELECT * FROM peliculas";
+function searchMovie($db)
+{
+    if (isset($_GET['searchMovie'])) {
+        $querySearch = "SELECT * FROM peliculas WHERE titulo LIKE '%" . $_GET['searchMovie'] . "%'";
+        $db->query($querySearch);
+        showMovies($db, $querySearch);
+    }
+}
+
 
 if (isset($_POST['saveMovie'])) {
-    if (isset($_POST['title']) && isset($_POST['director']) && isset($_POST['date']) && isset($_POST['cartel'])) {
-        $q = "INSERT INTO peliculas VALUES (null, '" . $_POST['title'] . "','" . $_POST['date'] . "','" . $_POST['director'] . "','" . $_POST['cartel'] . "','" . 0 . "')";
+    if (isset($_POST['title']) && isset($_POST['director']) && isset($_POST['date'])) {
+
+        if (isset($_FILES['cartel']['name'])) {
+            move_uploaded_file($_FILES['cartel']['tmp_name'], "./img/" . $_FILES['cartel']['name']);
+        }
+
+        $q = "INSERT INTO peliculas VALUES (null, '" . $_POST['title'] . "','" . $_POST['date'] . "','" . $_POST['director'] . "','" . $_FILES['cartel']['name'] . "','" . 0 . "')";
         $db->query($q);
     }
 }
@@ -91,11 +103,6 @@ if (isset($_GET['likeMovie'])) {
     header('Location: ejercicio.php');
 }
 
-
-$stmt = $db->prepare($query);
-$stmt->execute();
-$result = $stmt->get_result();
-
 if (isset($_SESSION['username'])) {
 
     echo "<p>Bienvenido, " . $_SESSION['username'] . "</p>";
@@ -105,7 +112,7 @@ if (isset($_SESSION['username'])) {
     if (isset($_GET['addMovie'])) {
 ?>
         <p><b>Subir pelicula</b></p>
-        <form action="ejercicio.php" method="POST">
+        <form action="ejercicio.php" method="POST" enctype="multipart/form-data">
             <label for="title">Titulo:</label>
             <input type="text" name="title" required><br><br>
 
@@ -116,7 +123,7 @@ if (isset($_SESSION['username'])) {
             <input type="text" name="director" required><br><br>
 
             <label for="cartel">Cartel:</label>
-            <input type="text" name="cartel" required><br><br>
+            <input type="file" accept="image/*" name="cartel" required><br><br>
 
             <input type="submit" name="saveMovie" value="Subir Pelicula">
             <a href="ejercicio.php">Volver</a>
@@ -124,7 +131,29 @@ if (isset($_SESSION['username'])) {
     <?php
     }
 
-    showMovies($db);
+    ?>
+
+    <form action="ejercicio.php" method="GET">
+        <input type="text" name="searchMovie"
+            <?php
+
+            if (isset($_GET['searchMovie'])) {
+                echo "value='" . $_GET['searchMovie'] . "'";
+            }
+            ?>
+            placeholder="Buscar pelicula..." required>&nbsp;
+
+        <input type="submit" value="Search">
+    </form>
+
+    <?php
+
+    if (isset($_GET['searchMovie'])) {
+        searchMovie($db);
+    } else {
+        $query = "SELECT * FROM peliculas";
+        showMovies($db, $query);
+    }
 
     echo '<a href="?logout=1">Cerrar sesión</a>';
 } else if (isset($_GET['register'])) {
