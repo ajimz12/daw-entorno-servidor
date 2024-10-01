@@ -8,6 +8,23 @@ $db = new mysqli($hostname, $user, "", $database);
 
 session_start();
 
+function showMovies($db)
+{
+    $query = "SELECT * FROM peliculas";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $cartel = "./img/" . $row['cartel'];
+
+        echo $row['titulo'] . " <br> " . $row['fecha'] . " <br> " . $row['director'] . "<br>";
+        echo "<img src='" . $cartel . "' alt='" . $row['titulo'] . "' width='200' height='300'><br><br>";
+        echo '<a href="ejercicio.php?deleteMovie=1&id=' . $row['id'] . '">Borrar Pelicula</a><br><br>';
+        echo '<a href="ejercicio.php?likeMovie=1&id=' . $row['id'] . '">Me gusta</a>&nbsp;' . $row['likes'] . '<br><br>';
+    }
+}
+
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: ejercicio.php');
@@ -58,12 +75,12 @@ $query = "SELECT * FROM peliculas";
 
 if (isset($_POST['saveMovie'])) {
     if (isset($_POST['title']) && isset($_POST['director']) && isset($_POST['date']) && isset($_POST['cartel'])) {
-        $q = "INSERT INTO peliculas VALUES (null, '" . $_POST['title'] . "','" . $_POST['date'] . "','" . $_POST['director'] . "','" . $_POST['cartel'] . "','" . 0 ."')";
+        $q = "INSERT INTO peliculas VALUES (null, '" . $_POST['title'] . "','" . $_POST['date'] . "','" . $_POST['director'] . "','" . $_POST['cartel'] . "','" . 0 . "')";
         $db->query($q);
     }
 }
 
-if (isset($_GET['deleteMovie']) ) {
+if (isset($_GET['deleteMovie'])) {
     $queryDelete = "DELETE FROM peliculas WHERE id = " . $_GET['id'];
     $db->query($queryDelete);
 }
@@ -80,13 +97,12 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if (isset($_SESSION['username'])) {
-    
+
     echo "<p>Bienvenido, " . $_SESSION['username'] . "</p>";
 
     echo '<a href="?addMovie=1">Subir pelicula</a><br/><br>';
 
     if (isset($_GET['addMovie'])) {
-
 ?>
         <p><b>Subir pelicula</b></p>
         <form action="ejercicio.php" method="POST">
@@ -105,19 +121,10 @@ if (isset($_SESSION['username'])) {
             <input type="submit" name="saveMovie" value="Subir Pelicula">
             <a href="ejercicio.php">Volver</a>
         </form>
-
     <?php
     }
 
-    while ($row = $result->fetch_assoc()) {
-        $cartel = "./img/" . $row['cartel'];
-
-        echo $row['titulo'] . " <br> " . $row['fecha'] . " <br> " . $row['director'] . "<br>";
-        echo "<img src='" . $cartel . "' alt='" . $row['titulo'] . "' width='200' height='300'><br><br>";
-        echo '<a href="ejercicio.php?deleteMovie=1&id=' . $row['id'] . '">Borrar Pelicula</a><br><br>';
-        echo '<a href="ejercicio.php?likeMovie=1&id='. $row['id']. '">Me gusta</a>&nbsp;' .  $row['likes']. '<br><br>';
-        
-    }
+    showMovies($db);
 
     echo '<a href="?logout=1">Cerrar sesión</a>';
 } else if (isset($_GET['register'])) {
