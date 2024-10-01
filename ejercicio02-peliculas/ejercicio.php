@@ -58,7 +58,7 @@ $query = "SELECT * FROM peliculas";
 
 if (isset($_POST['saveMovie'])) {
     if (isset($_POST['title']) && isset($_POST['director']) && isset($_POST['date']) && isset($_POST['cartel'])) {
-        $q = "INSERT INTO peliculas VALUES (null, '" . $_POST['title'] . "','" . $_POST['date'] . "','" . $_POST['director'] . "','" . $_POST['cartel'] . "')";
+        $q = "INSERT INTO peliculas VALUES (null, '" . $_POST['title'] . "','" . $_POST['date'] . "','" . $_POST['director'] . "','" . $_POST['cartel'] . "','" . 0 ."')";
         $db->query($q);
     }
 }
@@ -68,12 +68,19 @@ if (isset($_GET['deleteMovie']) ) {
     $db->query($queryDelete);
 }
 
+if (isset($_GET['likeMovie'])) {
+    $queryLike = "UPDATE peliculas SET likes = likes + 1 WHERE id = " . $_GET['id'];
+    $db->query($queryLike);
+    header('Location: ejercicio.php');
+}
+
+
 $stmt = $db->prepare($query);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if (isset($_SESSION['username'])) {
-
+    
     echo "<p>Bienvenido, " . $_SESSION['username'] . "</p>";
 
     echo '<a href="?addMovie=1">Subir pelicula</a><br/><br>';
@@ -108,6 +115,8 @@ if (isset($_SESSION['username'])) {
         echo $row['titulo'] . " <br> " . $row['fecha'] . " <br> " . $row['director'] . "<br>";
         echo "<img src='" . $cartel . "' alt='" . $row['titulo'] . "' width='200' height='300'><br><br>";
         echo '<a href="ejercicio.php?deleteMovie=1&id=' . $row['id'] . '">Borrar Pelicula</a><br><br>';
+        echo '<a href="ejercicio.php?likeMovie=1&id='. $row['id']. '">Me gusta</a>&nbsp;' .  $row['likes']. '<br><br>';
+        
     }
 
     echo '<a href="?logout=1">Cerrar sesión</a>';
