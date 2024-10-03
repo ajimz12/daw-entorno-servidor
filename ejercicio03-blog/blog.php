@@ -15,7 +15,6 @@ if (isset($_POST['register'])) {
         if (!$result->num_rows) {
             $query = "INSERT INTO users VALUES (null, '" . $_POST['username'] . "', MD5('" . $_POST['password'] . "'))";
             $result = $db->query($query);
-
             if ($result) {
                 echo "<p>Usuario registrado con éxito.</p>";
             } else {
@@ -28,14 +27,11 @@ if (isset($_POST['register'])) {
         echo "<p>Las contraseñas no coinciden.</p>";
     }
 }
-
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-
     $query = "SELECT id_user, password FROM users WHERE username = '" . $_POST['username'] . "'";
     $result = $db->query($query);
-
     if ($row = $result->fetch_assoc()) {
         if ($row['password'] == md5($_POST['password'])) {
             $_SESSION['username'] = $username;
@@ -43,7 +39,6 @@ if (isset($_POST['login'])) {
         }
     }
 }
-
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: blog.php');
@@ -53,30 +48,33 @@ function showArticles($db)
 {
     $query = "SELECT id_article, title, text, image, id_user, date FROM articles";
     $result = $db->query($query);
-    $articles = array();
-
     while ($row = $result->fetch_assoc()) {
-        $articles[] = $row;
+        $imagen = "./img/" . $row['image'];
+        echo '<h2>' . $row['title'] . '</h2>';
+        echo '<p>' . $row['text'] . '</p>';
+        echo "<img src='" . $imagen . "' alt='" . $row['title'] . "' width='300' height='300'><br><br>";
+        echo '<p>Fecha: ' . $row['date'] . '</p>';
+
+        if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $row['id_user']) {
+            echo '<a href="?deleteArticle=' . $row['id_article'] . '">Eliminar</a>&nbsp;';
+            echo '<a href="?hideArticle=' . $row['id_article'] . '">Ocultar</a>';
+        }
     }
-    return $articles;
 }
 
 if (isset($_POST['saveArticle'])) {
     if (isset($_POST['title']) && isset($_POST['text']) && isset($_SESSION['id_user'])) {
-
         $imageName = "";
         if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != '') {
             $imageName = $_FILES['image']['name'];
             move_uploaded_file($_FILES['image']['tmp_name'], "./img/" . $imageName);
         }
-
         $userId = $_SESSION['id_user'];
 
-        $date = "NOW()";
+        $date = date('Y-m-d');
 
         $q = "INSERT INTO articles (title, text, date, image, id_user) 
               VALUES ('" . $_POST['title'] . "','" . $_POST['text'] . "','" . $date . "','" . $imageName . "', '" . $userId . "')";
-
         if ($db->query($q)) {
             echo "Artículo guardado con éxito";
         } else {
@@ -90,8 +88,12 @@ if (isset($_GET['deleteArticle'])) {
     $db->query($query);
 }
 
-?>
+if (isset($_GET['hideArticle'])) {
+    $query = "UPDATE articles SET visible = 0 WHERE id_article = " . $_GET['hideArticle'];
+    $db->query($query);
+}
 
+?>
 <html>
 <style>
     form,
@@ -103,48 +105,41 @@ if (isset($_GET['deleteArticle'])) {
 <body>
 
     <?php
-    if (isset($_SESSION['username'])) {
 
+    if (isset($_SESSION['username'])) {
         echo "<p>Bienvenido, " . $_SESSION['username'] . "</p>";
         echo '<a href="?logout=1">Cerrar sesión</a>';
-
         echo '<h1><b>Blog</b></h1><br>';
         echo '<a href="?addArticle=1">Añadir artículo</a><br><br>';
-
         if (isset($_GET['addArticle'])) {
     ?>
+
             <form action="blog.php" method="POST" enctype="multipart/form-data">
+
                 <label for="title">Titulo:</label>
                 <input type="text" name="title" required><br><br>
 
                 <label for="text">Texto:</label>
-                <textarea name="textarea" required></textarea><br><br>
+                <textarea name="text" required></textarea><br><br>
 
                 <label for="image">Imagen:</label>
                 <input type="file" accept="image/*" name="image"><br><br>
 
                 <input type="submit" name="saveArticle" value="Subir Articulo">
+
                 <a href="blog.php">Volver</a>
             </form>
+
         <?php
         }
 
-        $articles = showArticles($db);
-
-        foreach ($articles as $article) {
-            $imagen = "./img/" . $article['image'];
-            echo '<h2>' . $article['title'] . '</h2>';
-            echo '<p>' . $article['text'] . '</p>';
-            echo "<img src='" . $imagen . "' alt='" . $article['title'] . "' width='300' height='300'><br><br>";
-            echo '<p>Fecha: ' . $article['date'] . '</p>';
-            echo '<p>ID Usuario: ' . $article['id_user'] . '</p>';
-        }
-        
+        showArticles($db);
     } else if (isset($_GET['register'])) {
+
         ?>
         <h2><b>Registro</b></h2><br>
-
         <form action="blog.php" method="POST">
+
             <label for="username">Usuario:</label>
             <input type="text" name="username" required><br><br>
 
@@ -156,10 +151,11 @@ if (isset($_GET['deleteArticle'])) {
 
             <input type="submit" name="register" value="Registrarse">
         </form>
-
         <a href="blog.php">Volver</a>
     <?php
+
     } else {
+
     ?>
         <h2><b>Iniciar sesión</b></h2><br>
 
@@ -172,7 +168,6 @@ if (isset($_GET['deleteArticle'])) {
 
             <input type="submit" name="login" value="Iniciar sesión">
         </form>
-
         <a href="?register=1">Registrarse</a>
     <?php
     }
