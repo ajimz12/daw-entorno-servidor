@@ -39,7 +39,7 @@ if (isset($_POST['login'])) {
     if ($row = $result->fetch_assoc()) {
         if ($row['password'] == md5($_POST['password'])) {
             $_SESSION['username'] = $username;
-            $_SESSION['id_user'] = $row['id_user'];  
+            $_SESSION['id_user'] = $row['id_user'];
         }
     }
 }
@@ -53,19 +53,12 @@ function showArticles($db)
 {
     $query = "SELECT id_article, title, text, image, id_user, date FROM articles";
     $result = $db->query($query);
+    $articles = array();
 
     while ($row = $result->fetch_assoc()) {
-        $imagen = "./img/" . $row['image'];
-        echo '<h2>' . $row['title'] . '</h2>';
-        echo '<p>' . $row['text'] . '</p>';
-        echo "<img src='" . $imagen . "' alt='" . $row['title'] . "' width='300' height='300'><br><br>";
-        echo '<p>Fecha: ' . $row['date'] . '</p>';  
-
-        // Verificar si el usuario actual es el dueño del artículo
-        if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $row['id_user']) {
-            echo '<a href="?deleteArticle=' . $row['id_article'] . '">Eliminar</a><br><br>';
-        }
+        $articles[] = $row;
     }
+    return $articles;
 }
 
 if (isset($_POST['saveArticle'])) {
@@ -79,7 +72,7 @@ if (isset($_POST['saveArticle'])) {
 
         $userId = $_SESSION['id_user'];
 
-        $date = isset($_POST['date']) && $_POST['date'] != '' ? $_POST['date'] : date('Y-m-d');
+        $date = "NOW()";
 
         $q = "INSERT INTO articles (title, text, date, image, id_user) 
               VALUES ('" . $_POST['title'] . "','" . $_POST['text'] . "','" . $date . "','" . $imageName . "', '" . $userId . "')";
@@ -125,10 +118,7 @@ if (isset($_GET['deleteArticle'])) {
                 <input type="text" name="title" required><br><br>
 
                 <label for="text">Texto:</label>
-                <textarea name="text" required></textarea><br><br>
-
-                <label for="date">Fecha (opcional):</label>
-                <input type="date" name="date"><br><br>
+                <textarea name="textarea" required></textarea><br><br>
 
                 <label for="image">Imagen:</label>
                 <input type="file" accept="image/*" name="image"><br><br>
@@ -139,7 +129,17 @@ if (isset($_GET['deleteArticle'])) {
         <?php
         }
 
-        showArticles($db);
+        $articles = showArticles($db);
+
+        foreach ($articles as $article) {
+            $imagen = "./img/" . $article['image'];
+            echo '<h2>' . $article['title'] . '</h2>';
+            echo '<p>' . $article['text'] . '</p>';
+            echo "<img src='" . $imagen . "' alt='" . $article['title'] . "' width='300' height='300'><br><br>";
+            echo '<p>Fecha: ' . $article['date'] . '</p>';
+            echo '<p>ID Usuario: ' . $article['id_user'] . '</p>';
+        }
+        
     } else if (isset($_GET['register'])) {
         ?>
         <h2><b>Registro</b></h2><br>
