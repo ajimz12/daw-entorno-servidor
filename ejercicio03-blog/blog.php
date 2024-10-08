@@ -46,21 +46,50 @@ if (isset($_GET['logout'])) {
 
 function showArticles($db)
 {
-    $query = "SELECT id_article, title, text, image, id_user, date FROM articles";
+    $articles = [];
+    $query = "SELECT * FROM articles JOIN users ON articles.id_user = users.id_user";
     $result = $db->query($query);
-    while ($row = $result->fetch_assoc()) {
-        $imagen = "./img/" . $row['image'];
-        echo '<h2>' . $row['title'] . '</h2>';
-        echo '<p>' . $row['text'] . '</p>';
-        echo "<img src='" . $imagen . "' alt='" . $row['title'] . "' width='300' height='300'><br><br>";
-        echo '<p>Fecha: ' . $row['date'] . '</p>';
 
-        if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $row['id_user']) {
-            echo '<a href="?deleteArticle=' . $row['id_article'] . '">Eliminar</a>&nbsp;';
-            echo '<a href="?hideArticle=' . $row['id_article'] . '">Ocultar</a>';
+    while ($row = $result->fetch_assoc()) {
+        $articles[] = $row;
+    }
+
+    foreach ($articles as $article) {
+
+        if ($article['visible'] || $article['id_user'] == $_SESSION['id_user']) {
+
+            if (isset($_POST['saveComment'])) {
+                saveComment($db, $articles['id_article']);
+            }
+
+            $image = "./img/" . $article['image'];
+            echo '<h2>' . $article['title'] . '</h2>';
+            echo '<p>' . $article['text'] . '</p>';
+            echo "<img src='" . $image . "' alt='" . $article['title'] . "' width='300' height='300'><br><br>";
+            echo '<p>Fecha: ' . $article['date'] . '</p>';
+            echo '<p>Autor: ' . $article['username'] . '</p>';
+            echo "<p><b>Comentarios</b></p>";
+
+?>
+
+            <form action="blog.php" method="POST" enctype="multipart/form-data">
+                <input type="text" name="comment" placeholder="Escribir comentario..."><br><br>
+                <input type="submit" name="saveComment" value="Subir Comentario">
+            </form>
+<?php
+
+            if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $article['id_user']) {
+                echo '<a href="?deleteArticle=' . $article['id_article'] . '">Eliminar</a>&nbsp;';
+                if ($article['visible']) {
+                    echo '<a href="?hideArticle=' . $article['id_article'] . '">Ocultar</a>';
+                } else {
+                    echo '<a href="?showArticle=' . $article['id_article'] . '">Mostrar</a>';
+                }
+            }
         }
     }
 }
+
 
 if (isset($_POST['saveArticle'])) {
     if (isset($_POST['title']) && isset($_POST['text']) && isset($_SESSION['id_user'])) {
@@ -71,27 +100,42 @@ if (isset($_POST['saveArticle'])) {
         }
         $userId = $_SESSION['id_user'];
 
-        $date = date('Y-m-d');
-
         $q = "INSERT INTO articles (title, text, date, image, id_user) 
-              VALUES ('" . $_POST['title'] . "','" . $_POST['text'] . "','" . $date . "','" . $imageName . "', '" . $userId . "')";
-        if ($db->query($q)) {
-            echo "Artículo guardado con éxito";
-        } else {
-            echo "Error al guardar el artículo: " . $db->error;
-        }
+              VALUES ('" . $_POST['title'] . "','" . $_POST['text'] . "','" . date('Y-m-d') . "','" . $imageName . "', '" . $userId . "')";
+        $db->query($q);
+        header('Location: blog.php');
     }
 }
 
 if (isset($_GET['deleteArticle'])) {
     $query = "DELETE FROM articles WHERE id_article = " . $_GET['deleteArticle'];
     $db->query($query);
+    header('Location: blog.php');
 }
 
 if (isset($_GET['hideArticle'])) {
     $query = "UPDATE articles SET visible = 0 WHERE id_article = " . $_GET['hideArticle'];
     $db->query($query);
+    header('Location: blog.php');
 }
+
+if (isset($_GET['showArticle'])) {
+    $query = "UPDATE articles SET visible = 1 WHERE id_article = " . $_GET['showArticle'];
+    $db->query($query);
+    header('Location: blog.php');
+}
+
+function saveComment($db, $idArticle)
+{
+    if (isset($_POST['comment']) && isset($_SESSION['id_user'])) {
+        $q = "INSERT INTO comments (text, date, id_user, id_article)
+        VALUES ('" . $_POST['comment'] . "','" . date('Y-m-d') . "', '" . $_SESSION['id_user'] . "', '" . $idArticle . "')";
+        $db->query($q);
+        header('Location: blog.php');
+        var_dump($q);
+    }
+}
+
 
 ?>
 <html>
