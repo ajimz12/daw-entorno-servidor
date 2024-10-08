@@ -55,27 +55,23 @@ function showArticles($db)
     }
 
     foreach ($articles as $article) {
-
         if ($article['visible'] || $article['id_user'] == $_SESSION['id_user']) {
 
-            if (isset($_POST['saveComment'])) {
-                saveComment($db, $articles['id_article']);
-            }
-
             $image = "./img/" . $article['image'];
-            echo '<h2>' . $article['title'] . '</h2>';
+            echo '<h2><a href="?showUniqueArticle=' . $article['id_article'] . '">' . $article['title'] . '</a></h2>';
             echo '<p>' . $article['text'] . '</p>';
             echo "<img src='" . $image . "' alt='" . $article['title'] . "' width='300' height='300'><br><br>";
             echo '<p>Fecha: ' . $article['date'] . '</p>';
             echo '<p>Autor: ' . $article['username'] . '</p>';
             echo "<p><b>Comentarios</b></p>";
+            showComments($db, $article['id_article']);
 
 ?>
-
-            <form action="blog.php" method="POST" enctype="multipart/form-data">
-                <input type="text" name="comment" placeholder="Escribir comentario..."><br><br>
+            <form action="blog.php?id_article=<?php echo $article['id_article']; ?>" method="POST" enctype="multipart/form-data">
+                <input type="text" name="comment" placeholder="Escribir comentario..." required><br><br>
                 <input type="submit" name="saveComment" value="Subir Comentario">
             </form>
+
 <?php
 
             if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $article['id_user']) {
@@ -87,6 +83,38 @@ function showArticles($db)
                 }
             }
         }
+    }
+}
+
+
+function showUniqueArticle($db, $idArticle)
+{
+    $query = "SELECT * FROM articles WHERE id_article = " . $idArticle;
+    $result = $db->query($query);
+
+    // $image = "./img/" . $article['image'];
+    //         echo '<h2><a href="?showUniqueArticle=' . $article['id_article'] . '">' . $article['title'] . '</a></h2>';
+    //         echo '<p>' . $article['text'] . '</p>';
+    //         echo "<img src='" . $image . "' alt='" . $article['title'] . "' width='300' height='300'><br><br>";
+    //         echo '<p>Fecha: ' . $article['date'] . '</p>';
+    //         echo '<p>Autor: ' . $article['username'] . '</p>';
+    //         echo "<p><b>Comentarios</b></p>";
+    //         showComments($db, $article['id_article']);
+
+}
+
+function showComments($db, $idArticle)
+{
+    $comments = [];
+    $query = "SELECT * FROM comments JOIN articles ON comments.id_article = articles.id_article JOIN users ON comments.id_user = users.id_user WHERE comments.id_article = " . $idArticle . "";
+    $result = $db->query($query);
+
+    while ($row = $result->fetch_assoc()) {
+        $comments[] = $row;
+    }
+
+    foreach ($comments as $comment) {
+        echo '<p>' . $comment['comment'] . '</p>';
     }
 }
 
@@ -125,14 +153,12 @@ if (isset($_GET['showArticle'])) {
     header('Location: blog.php');
 }
 
-function saveComment($db, $idArticle)
-{
-    if (isset($_POST['comment']) && isset($_SESSION['id_user'])) {
-        $q = "INSERT INTO comments (text, date, id_user, id_article)
-        VALUES ('" . $_POST['comment'] . "','" . date('Y-m-d') . "', '" . $_SESSION['id_user'] . "', '" . $idArticle . "')";
-        $db->query($q);
+if (isset($_POST['saveComment'])) {
+    if (isset($_POST['comment']) && isset($_GET['id_article'])) {
+        $query = "INSERT INTO comments (comment, date, id_user, id_article)
+                  VALUES ('" . $_POST['comment'] . "','" . date('Y-m-d') . "', '" . $_SESSION['id_user'] . "', '" . $_GET['id_article'] . "')";
+        $db->query($query);
         header('Location: blog.php');
-        var_dump($q);
     }
 }
 
