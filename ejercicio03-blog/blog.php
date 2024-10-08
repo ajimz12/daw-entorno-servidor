@@ -54,53 +54,60 @@ function showArticles($db)
         $articles[] = $row;
     }
 
-    foreach ($articles as $article) {
-        if ($article['visible'] || $article['id_user'] == $_SESSION['id_user']) {
-
-            $image = "./img/" . $article['image'];
-            echo '<h2><a href="?showUniqueArticle=' . $article['id_article'] . '">' . $article['title'] . '</a></h2>';
-            echo '<p>' . $article['text'] . '</p>';
-            echo "<img src='" . $image . "' alt='" . $article['title'] . "' width='300' height='300'><br><br>";
-            echo '<p>Fecha: ' . $article['date'] . '</p>';
-            echo '<p>Autor: ' . $article['username'] . '</p>';
-            echo "<p><b>Comentarios</b></p>";
-            showComments($db, $article['id_article']);
-
-?>
-            <form action="blog.php?id_article=<?php echo $article['id_article']; ?>" method="POST" enctype="multipart/form-data">
-                <input type="text" name="comment" placeholder="Escribir comentario..." required><br><br>
-                <input type="submit" name="saveComment" value="Subir Comentario">
-            </form>
-
-<?php
-
-            if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $article['id_user']) {
-                echo '<a href="?deleteArticle=' . $article['id_article'] . '">Eliminar</a>&nbsp;';
-                if ($article['visible']) {
-                    echo '<a href="?hideArticle=' . $article['id_article'] . '">Ocultar</a>';
-                } else {
-                    echo '<a href="?showArticle=' . $article['id_article'] . '">Mostrar</a>';
-                }
+    if (isset($_GET['showUniqueArticle'])) {
+        showUniqueArticle($db, $_GET['showUniqueArticle']);
+    } else {
+        foreach ($articles as $article) {
+            if ($article['visible'] || $article['id_user'] == $_SESSION['id_user']) {
+                showData($db, $article);
             }
         }
     }
 }
 
-
 function showUniqueArticle($db, $idArticle)
 {
-    $query = "SELECT * FROM articles WHERE id_article = " . $idArticle;
+    $query = "SELECT * FROM articles JOIN users ON articles.id_user = users.id_user WHERE id_article = " . $idArticle;
     $result = $db->query($query);
 
-    // $image = "./img/" . $article['image'];
-    //         echo '<h2><a href="?showUniqueArticle=' . $article['id_article'] . '">' . $article['title'] . '</a></h2>';
-    //         echo '<p>' . $article['text'] . '</p>';
-    //         echo "<img src='" . $image . "' alt='" . $article['title'] . "' width='300' height='300'><br><br>";
-    //         echo '<p>Fecha: ' . $article['date'] . '</p>';
-    //         echo '<p>Autor: ' . $article['username'] . '</p>';
-    //         echo "<p><b>Comentarios</b></p>";
-    //         showComments($db, $article['id_article']);
+    while ($row = $result->fetch_assoc()) {
+        $articles[] = $row;
+    }
 
+    foreach ($articles as $article) {
+        showData($db, $article);
+    }
+}
+
+function showData($db, $article)
+{
+    $image = "./img/" . $article['image'];
+    echo '<h2><a href="?showUniqueArticle=' . $article['id_article'] . '">' . $article['title'] . '</a></h2>';
+    echo '<p>' . $article['text'] . '</p>';
+    echo "<img src='" . $image . "' alt='" . $article['title'] . "' width='300' height='300'><br><br>";
+    echo '<p>Fecha: ' . $article['date'] . '</p>';
+    echo '<p>Autor: ' . $article['username'] . '</p>';
+    echo "<p><b>Comentarios</b></p>";
+    showComments($db, $article['id_article']);
+
+
+
+?>
+    <form action="blog.php?id_article=<?php echo $article['id_article']; ?>" method="POST" enctype="multipart/form-data">
+        <input type="text" name="comment" placeholder="Escribir comentario..." required><br><br>
+        <input type="submit" name="saveComment" value="Subir Comentario">
+    </form>
+
+<?php
+
+    if (isset($_SESSION['id_user']) && $_SESSION['id_user'] == $article['id_user']) {
+        echo '<a href="?deleteArticle=' . $article['id_article'] . '">Eliminar</a>&nbsp;';
+        if ($article['visible']) {
+            echo '<a href="?hideArticle=' . $article['id_article'] . '">Ocultar</a>';
+        } else {
+            echo '<a href="?showArticle=' . $article['id_article'] . '">Mostrar</a>';
+        }
+    }
 }
 
 function showComments($db, $idArticle)
