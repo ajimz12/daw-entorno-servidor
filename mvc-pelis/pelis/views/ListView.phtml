@@ -31,11 +31,12 @@
 		<?php
 
 		foreach ($movies as $movie) {
-			$image = "./img/" . $movie->getImage();
+			$image = "./public/img/" . $movie->getImage();
 
 			echo '<li>' . $movie->getTitle() . ' (Estrenado en ' . $movie->getYear() . ')</li>';
 			echo "<img src='" . $image . "' alt='" . $movie->getTitle() . "' width='200' height='300'><br><br>";
 			echo '<a href="index.php?likeMovie=1&id=' . $movie->getId() . '">Me gusta</a>&nbsp;' . $movie->getLikes() . '<br><br>';
+			echo '<a href="index.php?deleteMovie=1&id=' . $movie->getId() . '">Eliminar</a><br><br>';
 		}
 
 		?>

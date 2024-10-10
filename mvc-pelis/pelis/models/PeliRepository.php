@@ -21,7 +21,7 @@ class PeliRepository
 	{
 		$db = Conectar::conexion();
 		$movies = array();
-		$result = $db->query("SELECT * FROM peliculas WHERE titulo LIKE '%" . $t . "%'");
+		$result = $db->query("SELECT * FROM peliculas WHERE title LIKE '%" . $t . "%'");
 		while ($row = $result->fetch_assoc()) {
 			$movies[] = new PeliModel($row);
 		}
@@ -31,7 +31,13 @@ class PeliRepository
 	public static function saveMovie($title, $year, $image)
 	{
 		$db = Conectar::conexion();
-		$db->query("INSERT INTO peliculas VALUES (null, '" . $title . "','" . $year . "','" . $_FILES[$image]['name'] . "')");
+		$db->query("INSERT INTO peliculas VALUES (null, '" . $title . "','" . $year . "','" . $image . "','" . 0 . "')");
+	}
+
+	public static function deleteMovie($id)
+	{
+		$db = Conectar::conexion();
+		$db->query("DELETE FROM peliculas WHERE id = " . $id);
 	}
 
 	public static function saveLike($id)
