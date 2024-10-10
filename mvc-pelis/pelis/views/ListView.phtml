@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Mi lista de peliculas</title>
+</head>
+
+<body>
+	<h1>Mi lista de peliculas</h1>
+
+	<form action="index.php" method="post">
+		<input type="text" name="busca" placeholder="Titulo para la búsqueda">
+		<input type="submit" value="Busca">
+	</form>
+
+	<p><b>Subir pelicula</b></p>
+	<form action="index.php" method="POST" enctype="multipart/form-data">
+		<label for="title">Titulo:</label>
+		<input type="text" name="title" required><br><br>
+
+		<label for="year">Año:</label>
+		<input type="number" name="year" required><br><br>
+
+		<label for="image">Imagen:</label>
+		<input type="file" accept="image/*" name="image" required><br><br>
+
+		<input type="submit" name="saveMovie" value="Subir Pelicula">
+	</form>
+
+	<ul>
+		<?php
+
+		foreach ($movies as $movie) {
+			$image = "./img/" . $movie->getImage();
+
+			echo '<li>' . $movie->getTitle() . ' (Estrenado en ' . $movie->getYear() . ')</li>';
+			echo "<img src='" . $image . "' alt='" . $movie->getTitle() . "' width='200' height='300'><br><br>";
+			echo '<a href="index.php?likeMovie=1&id=' . $movie->getId() . '">Me gusta</a>&nbsp;' . $movie->getLikes() . '<br><br>';
+		}
+
+		?>
+	</ul>
+</body>
+
+</html>
