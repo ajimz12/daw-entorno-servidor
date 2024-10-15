@@ -3,7 +3,7 @@
 /**
  * 
  */
-class PeliModel
+class Peli
 {
 	private $id;
 	private $title;

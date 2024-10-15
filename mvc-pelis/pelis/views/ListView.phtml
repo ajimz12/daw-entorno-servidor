@@ -6,6 +6,18 @@
 </head>
 
 <body>
+
+	<?php
+
+	if (isset($_SESSION['username'])) {
+		echo "<h3>Bienvenido, " . $_SESSION['user']->getUsername() . "</h3>";
+		echo '<a href="?logout=1">Cerrar sesión</a>';
+	} else {
+		echo "<a href='index.php?c=login'>Login</a>";
+	}
+
+	?>
+
 	<h1>Mi lista de peliculas</h1>
 
 	<form action="index.php" method="post">

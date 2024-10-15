@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelis - Login</title>
+</head>
+
+<body>
+
+    <?php
+
+    if (isset($_SESSION['user'])) {
+        header('Location: index.php');
+    }
+
+    ?>
+
+    <h2><b>Iniciar sesión</b></h2><br>
+
+    <form action="index.php?c=user" method="POST">
+        <label for="username">Usuario:</label>
+        <input type="text" name="username" required><br><br>
+
+        <label for="password">Contraseña:</label>
+        <input type="password" name="password" required><br><br>
+
+        <input type="submit" name="login" value="Iniciar sesión">
+    </form>
+</body>
+
+</html>

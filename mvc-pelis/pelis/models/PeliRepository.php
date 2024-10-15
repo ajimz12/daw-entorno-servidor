@@ -12,7 +12,7 @@ class PeliRepository
 		$movies = array();
 		$result = $db->query("SELECT * FROM peliculas");
 		while ($row = $result->fetch_assoc()) {
-			$movies[] = new PeliModel($row);
+			$movies[] = new Peli($row);
 		}
 		return $movies;
 	}
@@ -23,7 +23,7 @@ class PeliRepository
 		$movies = array();
 		$result = $db->query("SELECT * FROM peliculas WHERE title LIKE '%" . $t . "%'");
 		while ($row = $result->fetch_assoc()) {
-			$movies[] = new PeliModel($row);
+			$movies[] = new Peli($row);
 		}
 		return $movies;
 	}
