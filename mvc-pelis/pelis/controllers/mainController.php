@@ -1,4 +1,7 @@
 <?php
+
+// session_start();
+
 //cargamos el modelo
 require_once("models/Peli.php");
 require_once("models/User.php");
@@ -6,15 +9,21 @@ require_once("models/PeliRepository.php");
 require_once("models/UserRepository.php");
 
 
-session_start();
-
 if (isset($_GET['c'])) {
     switch ($_GET['c']) {
         case 'login':
             require_once("controllers/userController.php");
             die();
+        case 'user':
+            // Login
+            if (isset($_POST['username']) && isset($_POST['password'])) {
+                require_once("controllers/userController.php");
+                die();
+            }
+            break;
     }
 }
+
 
 
 if (isset($_POST['busca'])) {

@@ -9,12 +9,15 @@
 
 	<?php
 
-	if (isset($_SESSION['username'])) {
+	session_start();
+
+	if (isset($_SESSION['user'])) {
 		echo "<h3>Bienvenido, " . $_SESSION['user']->getUsername() . "</h3>";
-		echo '<a href="?logout=1">Cerrar sesión</a>';
+		echo "<a href='?logout=1'>Cerrar sesión</a>";
 	} else {
 		echo "<a href='index.php?c=login'>Login</a>";
 	}
+
 
 	?>
 
