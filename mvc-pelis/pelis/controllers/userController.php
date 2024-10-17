@@ -4,8 +4,7 @@ session_start();
 
 if (isset($_GET['logout'])) {
     session_destroy();
-    require_once("controllers/userController.php");
-    exit();
+    header('Location: index.php');
 }
 
 

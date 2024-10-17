@@ -1,7 +1,5 @@
 <?php
 
-// session_start();
-
 //cargamos el modelo
 require_once("models/Peli.php");
 require_once("models/User.php");
@@ -20,10 +18,12 @@ if (isset($_GET['c'])) {
                 require_once("controllers/userController.php");
                 die();
             }
-            break;
+        case 'movie':
+            require_once("controllers/movieController.php");
+            die();
+            // $movie = PeliRepository::getMovieById($_GET['id']);
     }
 }
-
 
 
 if (isset($_POST['busca'])) {
@@ -53,10 +53,15 @@ if (isset($_GET['deleteMovie'])) {
     header('Location: index.php');
 }
 
-
 if (isset($_GET['likeMovie'])) {
     PeliRepository::saveLike($_GET['id']);
     header('Location: index.php');
+}
+
+if (isset($_GET['showUniqueMovie'])) {
+    $movies = PeliRepository::getMovieById($_POST['showUniqueMovie']);
+} else {
+    $movies = PeliRepository::getMovies();
 }
 
 // cargar la vista

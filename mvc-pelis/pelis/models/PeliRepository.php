@@ -28,6 +28,19 @@ class PeliRepository
 		return $movies;
 	}
 
+	public static function getMovieById($id)
+	{
+		$db = Conectar::conexion();
+		$result = $db->query("SELECT * FROM peliculas WHERE id = " . $id);
+
+		if ($row = $result->fetch_assoc()) {
+			return [new Peli($row)]; 
+		} else {
+			return null; 
+		}
+	}
+
+
 	public static function saveMovie($title, $year, $image)
 	{
 		$db = Conectar::conexion();

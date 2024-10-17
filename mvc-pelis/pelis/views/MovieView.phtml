@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la película</title>
+</head>
+
+<body>
+    <h1><?php echo $movie[0]->getTitle(); ?></h1>
+    <img src="./public/img/<?php echo $movie[0]->getImage(); ?>" alt="<?php echo $movie[0]->getTitle(); ?>" width="200" height="300"><br><br>
+    <p><strong>Año:</strong> <?php echo $movie[0]->getYear(); ?></p>
+    <p><strong>Likes:</strong> <?php echo $movie[0]->getLikes(); ?></p>
+
+    <a href="index.php">Volver a la lista de películas</a>
+</body>
+
+</html>
