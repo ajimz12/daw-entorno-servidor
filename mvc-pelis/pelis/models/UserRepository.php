@@ -3,6 +3,17 @@
 class UserRepository
 {
 
+    public static function login($username, $password)
+    {
+        $query = "SELECT * FROM usuarios WHERE username = '" . $username . "' AND password = '" . $password . "'";
+        $result = Conectar::conexion()->query($query);
+        if ($row = $result->fetch_assoc()) {
+            return new User($row);
+        } else {
+            return false;
+        }
+    }
+
     public static function getUsers()
     {
         $db = Conectar::conexion();
@@ -26,14 +37,15 @@ class UserRepository
         return $users;
     }
 
-    public static function login($username, $password)
-    {
-        $query = "SELECT * FROM usuarios WHERE username = '" . $username . "' AND password = '" . $password . "'";
-        $result = Conectar::conexion()->query($query);
-        if ($row = $result->fetch_assoc()) {
-            return new User($row);
-        } else {
-            return false;
-        }
-    }
+    public static function getFavorites($userId)
+	{
+		$db = Conectar::conexion();
+		$movies = array();
+		$result = $db->query("SELECT movie_id FROM favoritos WHERE user_id = $userId");
+		while ($row = $result->fetch_assoc()) {
+			$movies[] = PeliRepository::getMovieById($row['movie_id']);
+		}
+		return $movies;
+	}
 }
+

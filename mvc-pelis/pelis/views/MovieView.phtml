@@ -2,27 +2,33 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles de la película</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Detalles de la película</title>
 </head>
 
 <body>
-<ul>
+	<ul>
 		<?php
+		$image = "./public/img/" . $movie->getImage();
 
-			$image = "./public/img/" . $movie[0]->getImage();
-
-			echo '<h2><a href="index.php?c=movie&showUniqueMovie=1&id=' . $movie[0]->getId() . '">' . $movie[0]->getTitle() . ' (Estrenado en ' . $movie[0]->getYear() . ')</a></h2>';
-			echo "<img src='" . $image . "' alt='" . $movie[0]->getTitle() . "' width='200' height='300'><br><br>";
-			echo '<a href="index.php?likeMovie=1&id=' . $movie[0]->getId() . '">Me gusta</a>&nbsp;' . $movie[0]->getLikes() . '<br><br>';
-			echo '<a href="index.php?deleteMovie=1&id=' . $movie[0]->getId() . '">Eliminar</a><br><br>';
-	
-
+		echo '<h2><a href="index.php?c=movie&showUniqueMovie=1&id=' . $movie->getId() . '">' . $movie->getTitle() . ' (Estrenado en ' . $movie->getYear() . ')</a></h2>';
+		echo "<img src='" . $image . "' alt='" . $movie->getTitle() . "' width='200' height='300'><br><br>";
+		echo '<a href="index.php?likeMovie=1&id=' . $movie->getId() . '">Me gusta</a>&nbsp;' . $movie->getLikes() . '<br><br>';
+		echo '<a href="index.php?deleteMovie=1&id=' . $movie->getId() . '">Eliminar</a><br><br>';
 		?>
 	</ul>
 
-    <a href="index.php">Volver a la lista de películas</a>
+	<h3>Usuarios que han marcado como favorito:</h3>
+	<ul>
+		<?php
+		foreach ($movie->getUsers() as $user) {
+			echo "<li><a href='index.php?c=userDetail&showUniqueUser=1&id=" . $user->getId() . "'>" . $user->getUsername() . "</a></li>";
+		}
+		?>
+	</ul>
+
+	<a href="index.php">Volver a la lista de películas</a>
 </body>
 
 </html>

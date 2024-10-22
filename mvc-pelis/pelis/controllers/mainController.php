@@ -21,27 +21,17 @@ if (isset($_GET['c'])) {
             }
         case 'movie':
             // Pelicula
-            if (isset($_GET['showUniqueMovie'])) {
-                $movie = PeliRepository::getMovieById($_GET['id']);
-                require_once("views/MovieView.phtml");
-                die();
-            }
+            require_once("controllers/movieController.php");
+            die();
         case 'userList':
             // Lista de usuarios
-            if (isset($_GET['showAllUsers'])) {
-                $users = UserRepository::getUsers();
-                require_once("views/UserListView.phtml");
-                die();
-            }
+            require_once("controllers/userController.php");
+            die();
+
         case 'userDetail':
             // Usuario
-            if (isset($_GET['showUniqueUser'])) {
-                $users = UserRepository::getUserById($_GET['id']);
-                $favorites = PeliRepository::getFavorites($_GET['id']);
-                require_once("views/UserView.phtml");
-                die();
-            }
-            break;
+            require_once("controllers/userController.php");
+            die();
     }
 }
 
@@ -76,12 +66,6 @@ if (isset($_GET['deleteMovie'])) {
 if (isset($_GET['likeMovie'])) {
     PeliRepository::saveLike($_GET['id']);
     header('Location: index.php');
-}
-
-if (isset($_GET['showUniqueMovie'])) {
-    $movies = PeliRepository::getMovieById($_POST['showUniqueMovie']);
-} else {
-    $movies = PeliRepository::getMovies();
 }
 
 

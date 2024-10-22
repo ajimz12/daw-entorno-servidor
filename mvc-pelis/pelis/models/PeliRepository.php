@@ -28,15 +28,14 @@ class PeliRepository
 	public static function getMovieById($id)
 	{
 		$db = Conectar::conexion();
-		$movies = array();
 		$result = $db->query("SELECT * FROM peliculas WHERE id = " . $id);
 
-		while ($row = $result->fetch_assoc()) {
-			$movies[] = new Peli($row);
+		if ($row = $result->fetch_assoc()) {
+			return new Peli($row);
 		}
-		return $movies;
-	}
 
+		return null;
+	}
 
 	public static function saveMovie($title, $year, $image)
 	{
@@ -62,24 +61,12 @@ class PeliRepository
 		$db->query("INSERT INTO favoritos (user_id, movie_id) VALUES ($userId, $movieId)");
 	}
 
-	public static function getFavorites($userId)
+	public static function getUsersByMovie($movieId)
 	{
 		$db = Conectar::conexion();
-		$movies = array();
-		$result = $db->query("SELECT movie_id FROM favoritos WHERE user_id = $userId");
+		$result = $db->query("SELECT user_id FROM favoritos WHERE movie_id = $movieId");
 		while ($row = $result->fetch_assoc()) {
-			$movies[] = PeliRepository::getMovieById($row['movie_id'])[0];
-		}
-		return $movies;
-	}
-
-	public static function getUsersFavorites($userId)
-	{
-		$db = Conectar::conexion();
-		$users = array();
-		$result = $db->query("SELECT user_id FROM favoritos WHERE movie_id = $userId");
-		while ($row = $result->fetch_assoc()) {
-			$users[] = $row['user_id'];
+			$users[] = UserRepository::getUserById($row['user_id'])[0];
 		}
 		return $users;
 	}
