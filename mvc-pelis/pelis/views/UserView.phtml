@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
+</head>
+
+<body>
+
+    <?php
+
+    foreach ($users as $user) {
+
+        echo "Usuario <b>" . $user->getUsername() . "</b>";
+    }
+
+    ?>
+
+    <h3>Pelis Favoritas</h3>
+    <ul>
+        <?php
+        foreach ($favorites as $favorite) {
+            echo '<li>'. $favorite->getTitle(). '</li>';
+        }
+
+        ?>
+    </ul>
+
+
+</body>
+
+</html>

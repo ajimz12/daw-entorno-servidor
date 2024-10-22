@@ -1,8 +1,5 @@
 <?php
 
-/**
- * 
- */
 class Peli
 {
 	private $id;

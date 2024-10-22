@@ -8,15 +8,17 @@
 <body>
 
 	<?php
-
-	session_start();
+	
+	// session_start();
 
 	if (isset($_SESSION['user'])) {
 		echo "<h3>Bienvenido, " . $_SESSION['user']->getUsername() . "</h3>";
-		echo "<a href='index.php?c=login&logout=1'>Cerrar sesión</a>";
+		echo "<a href='index.php?c=login&logout=1'>Cerrar sesión</a><br><br>";
 	} else {
-		echo "<a href='index.php?c=login'>Login</a>";
+		echo "<a href='index.php?c=login'>Login</a><br><br>";
 	}
+
+	echo "<a href='index.php?c=userList&showAllUsers=1'>Ver todos los usuarios</a>";
 
 	?>
 
@@ -51,7 +53,9 @@
 			echo "<img src='" . $image . "' alt='" . $movie->getTitle() . "' width='200' height='300'><br><br>";
 			echo '<a href="index.php?likeMovie=1&id=' . $movie->getId() . '">Me gusta</a>&nbsp;' . $movie->getLikes() . '<br><br>';
 			echo '<a href="index.php?deleteMovie=1&id=' . $movie->getId() . '">Eliminar</a><br><br>';
-		}
+			echo '<a href="index.php?setFavorite=1&id=' . $movie->getId() . '">Añadir a Favoritos</a><br><br>';
+
+		} 
 
 		?>
 	</ul>

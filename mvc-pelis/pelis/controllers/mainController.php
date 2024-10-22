@@ -6,6 +6,7 @@ require_once("models/User.php");
 require_once("models/PeliRepository.php");
 require_once("models/UserRepository.php");
 
+session_start();
 
 if (isset($_GET['c'])) {
     switch ($_GET['c']) {
@@ -19,9 +20,28 @@ if (isset($_GET['c'])) {
                 die();
             }
         case 'movie':
-            require_once("controllers/movieController.php");
-            die();
-            // $movie = PeliRepository::getMovieById($_GET['id']);
+            // Pelicula
+            if (isset($_GET['showUniqueMovie'])) {
+                $movie = PeliRepository::getMovieById($_GET['id']);
+                require_once("views/MovieView.phtml");
+                die();
+            }
+        case 'userList':
+            // Lista de usuarios
+            if (isset($_GET['showAllUsers'])) {
+                $users = UserRepository::getUsers();
+                require_once("views/UserListView.phtml");
+                die();
+            }
+        case 'userDetail':
+            // Usuario
+            if (isset($_GET['showUniqueUser'])) {
+                $users = UserRepository::getUserById($_GET['id']);
+                $favorites = PeliRepository::getFavorites($_GET['id']);
+                require_once("views/UserView.phtml");
+                die();
+            }
+            break;
     }
 }
 
@@ -63,6 +83,16 @@ if (isset($_GET['showUniqueMovie'])) {
 } else {
     $movies = PeliRepository::getMovies();
 }
+
+
+if (isset($_GET['setFavorite']) && isset($_GET['id']) && isset($_SESSION['user'])) {
+    $userId = $_SESSION['user']->getId();
+    $movieId = $_GET['id'];
+    PeliRepository::addToFavorites($userId, $movieId);
+    header('Location: index.php');
+    die();
+}
+
 
 // cargar la vista
 require_once("views/ListView.phtml");

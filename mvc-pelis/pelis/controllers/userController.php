@@ -1,6 +1,9 @@
 <?php
 
-session_start();
+require_once("models/User.php");
+require_once("models/UserRepository.php");
+
+// session_start();
 
 if (isset($_GET['logout'])) {
     session_destroy();
@@ -21,4 +24,10 @@ if (isset($_POST['login'])) {
     }
 }
 
-require_once('views/LoginView.phtml');
+if (isset($_GET['id'])) {
+    $movie = UserRepository::getUserById($_GET['id']);
+
+    require_once('views/UserView.phtml');
+} else {
+    require_once('views/LoginView.phtml');
+}

@@ -1,8 +1,5 @@
 <?php
 
-/**
- * 
- */
 class PeliRepository
 {
 	//metodo para sacar todas las peliculas
@@ -31,13 +28,13 @@ class PeliRepository
 	public static function getMovieById($id)
 	{
 		$db = Conectar::conexion();
+		$movies = array();
 		$result = $db->query("SELECT * FROM peliculas WHERE id = " . $id);
 
-		if ($row = $result->fetch_assoc()) {
-			return [new Peli($row)]; 
-		} else {
-			return null; 
+		while ($row = $result->fetch_assoc()) {
+			$movies[] = new Peli($row);
 		}
+		return $movies;
 	}
 
 
@@ -57,5 +54,33 @@ class PeliRepository
 	{
 		$db = Conectar::conexion();
 		$db->query("UPDATE peliculas SET likes = likes + 1 WHERE id = " . $id);
+	}
+
+	public static function addToFavorites($userId, $movieId)
+	{
+		$db = Conectar::conexion();
+		$db->query("INSERT INTO favoritos (user_id, movie_id) VALUES ($userId, $movieId)");
+	}
+
+	public static function getFavorites($userId)
+	{
+		$db = Conectar::conexion();
+		$movies = array();
+		$result = $db->query("SELECT movie_id FROM favoritos WHERE user_id = $userId");
+		while ($row = $result->fetch_assoc()) {
+			$movies[] = PeliRepository::getMovieById($row['movie_id'])[0];
+		}
+		return $movies;
+	}
+
+	public static function getUsersFavorites($userId)
+	{
+		$db = Conectar::conexion();
+		$users = array();
+		$result = $db->query("SELECT user_id FROM favoritos WHERE movie_id = $userId");
+		while ($row = $result->fetch_assoc()) {
+			$users[] = $row['user_id'];
+		}
+		return $users;
 	}
 }
