@@ -1,18 +1,15 @@
 <?php
 
-/**
- * 
- */
 class User
 {
 
     private $id;
     private $username;
 
-    function __construct($id, $username)
+    function __construct($datos)
     {
-        $this->id = $id;
-        $this->username = $username;
+        $this->id = $datos['id'];
+        $this->username = $datos['username'];
     }
 
     public function getId()

@@ -9,15 +9,11 @@
 
 <body>
 
-    <?php
-
-    if (isset($_SESSION['user'])) {
-        header('Location: index.php');
-    }
-
-    ?>
-
     <h2><b>Iniciar sesión</b></h2><br>
+
+    <?php if (isset($info)): ?>
+        <p style="color: red;"><?php echo $info; ?></p>
+    <?php endif; ?>
 
     <form action="index.php?c=user" method="POST">
         <label for="username">Usuario:</label>
@@ -28,6 +24,7 @@
 
         <input type="submit" name="login" value="Iniciar sesión">
     </form>
+
 </body>
 
 </html>
