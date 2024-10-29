@@ -23,4 +23,16 @@ class ProductRepository
 		}
 		return $products;
 	}
+
+    public static function getProductById($id)
+	{
+		$db = Connect::connection();
+		$result = $db->query("SELECT * FROM products WHERE product_id = " . $id);
+
+		if ($row = $result->fetch_assoc()) {
+			return new Product($row);
+		}
+
+		return null;
+	}
 }

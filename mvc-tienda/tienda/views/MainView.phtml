@@ -34,7 +34,7 @@
         foreach ($products as $product) {
             $image = "./public/img/" . $product->getImage();
 
-            echo '<h2><a href="index.php?c=product&showUniqueProduct=1&id=' . $product->getId() . '">' . $product->getName() . '</a></h2>';
+            echo '<h2><a href="index.php?c=product&showUniqueProduct=1&product_id=' . $product->getId() . '">' . $product->getName() . '</a></h2>';
             echo "<img src='" . $image . "' alt='" . $product->getName() . "' width='200' height='300'><br><br>";
             if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin()) {
                 echo '<a href="index.php?deleteProduct=1&id=' . $product->getId() . '">Eliminar Producto</a><br><br>';

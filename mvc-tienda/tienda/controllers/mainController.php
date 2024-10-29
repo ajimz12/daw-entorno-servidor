@@ -9,7 +9,12 @@ session_start();
 
 if (isset($_GET['c']) && $_GET['c'] === 'login') {
     require_once("controllers/userController.php");
-    exit(); 
+    exit();
+}
+
+if (isset($_GET['c']) && $_GET['c'] === 'product') {
+    require_once("controllers/productController.php");
+    exit();
 }
 
 if (isset($_POST['search'])) {
