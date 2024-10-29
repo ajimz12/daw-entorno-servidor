@@ -21,7 +21,28 @@
     ?>
 
     <h1>Tienda Online</h1>
+
+    <form action="index.php" method="POST">
+        <input type="text" name="search" placeholder="Nombre para la búsqueda">
+        <input type="submit" value="Busca">
+    </form>
+
     <h3>Productos</h3>
+    <ul>
+        <?php
+
+        foreach ($products as $product) {
+            $image = "./public/img/" . $product->getImage();
+
+            echo '<h2><a href="index.php?c=product&showUniqueProduct=1&id=' . $product->getId() . '">' . $product->getName() . '</a></h2>';
+            echo "<img src='" . $image . "' alt='" . $product->getName() . "' width='200' height='300'><br><br>";
+            if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin()) {
+                echo '<a href="index.php?deleteProduct=1&id=' . $product->getId() . '">Eliminar Producto</a><br><br>';
+            }
+        }
+
+        ?>
+    </ul>
 
 
 </body>
