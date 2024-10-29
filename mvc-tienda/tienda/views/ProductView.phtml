@@ -11,10 +11,19 @@
 
     <ul>
         <?php
+
         $image = "./public/img/" . $product->getImage();
 
         echo '<h2><a href="index.php?c=product&showUniqueProduct=1&product_id=' . $product->getId() . '">' . $product->getName() . '</a></h2>';
         echo "<img src='" . $image . "' alt='" . $product->getName() . "' width='200' height='300'><br><br>";
+        echo '<p> ' . $product->getDescription() . '</p>';
+        echo '<p>Precio: ' . $product->getPrice() . '€</p>';
+        echo '<p>Cantidad disponible: ' . $product->getStock() . ' unidades</p>';
+
+        if (isset($_SESSION['user'])) {
+            echo '<a href="index.php?addCart=1&product_id=' . $product->getId() . '">Añadir al carrito</a><br><br>';
+        }
+
         if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin()) {
             echo '<a href="index.php?deleteProduct=1&id=' . $product->getId() . '">Eliminar Producto</a><br><br>';
         }

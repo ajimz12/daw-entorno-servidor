@@ -21,6 +21,11 @@ if (isset($_GET['c']) && $_GET['c'] === 'product') {
     exit();
 }
 
+if (isset($_GET['c']) && $_GET['c'] === 'cart') {
+    require_once("controllers/cartController.php");
+    exit();
+}
+
 if (isset($_POST['search'])) {
     $products = ProductRepository::getProductByName($_POST['search']);
 } else {

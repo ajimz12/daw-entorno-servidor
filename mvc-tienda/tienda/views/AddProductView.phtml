@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Producto</title>
+</head>
+
+<body>
+    <h2>Añadir producto</h2>
+    <form action="index.php?c=product" method="POST" enctype="multipart/form-data">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="name" required>
+        <label for="descripcion">Descripción:</label>
+        <input type="text" name="description" required>
+        <label for="precio">Precio:</label>
+        <input type="number" name="price" required>
+        <label for="stock">Stock:</label>
+        <input type="number" name="stock" required>
+        <label for="image">Imagen</label>
+        <input type="file" name="image" accept="image/*">
+        <input type="submit" name="addProduct" value="Añadir Producto">
+    </form>
+
+</body>
+
+</html>
