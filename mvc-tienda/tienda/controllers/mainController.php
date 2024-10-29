@@ -4,10 +4,14 @@ require_once('models/Product.php');
 require_once('models/UserRepository.php');
 require_once('models/ProductRepository.php');
 
-
 session_start();
 
 if (isset($_GET['c']) && $_GET['c'] === 'login') {
+    require_once("controllers/userController.php");
+    exit();
+}
+
+if (isset($_GET['c']) && $_GET['c'] === 'register') {
     require_once("controllers/userController.php");
     exit();
 }

@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de Sesión</title>
+    <title>Registro</title>
 </head>
+
 <body>
-    <h2><b>Iniciar sesión</b></h2><br>
+
+    <h2>Registro</h2>
     <?php if (isset($info)) echo "<p style='color:red;'>$info</p>"; ?>
-    <form action="index.php?c=login" method="POST">
+    <form action="index.php?c=register" method="POST">
         <label for="username">Usuario:</label>
         <input type="text" name="username" required><br><br>
         <label for="password">Contraseña:</label>
         <input type="password" name="password" required><br><br>
-        <input type="submit" name="login" value="Iniciar sesión">
+        <input type="submit" name="register" value="Registrarse">
     </form>
-    <a href="index.php?c=register&register=1" method="GET">Registrarse</a>
+
 </body>
+
 </html>

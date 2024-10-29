@@ -9,7 +9,7 @@ if (isset($_POST['login'])) {
 
         if ($user) {
             $_SESSION['user'] = $user;
-            header('Location: index.php'); // Redirige a la página principal después del login
+            header('Location: index.php');
             exit();
         } else {
             $info = "Error en el login";
@@ -17,10 +17,28 @@ if (isset($_POST['login'])) {
     }
 }
 
+if (isset($_POST['register'])) {
+    $username = $_POST['username'];
+    $password = md5($_POST['password']);
+    $user = UserRepository::register($username, $password);
+
+    if ($user) {
+        $_SESSION['user'] = $user;
+        header('Location: index.php?c=login');
+        exit();
+    } else {
+        $info = "Error en el registro";
+    }
+}
+
+if (isset($_GET['register'])) {
+    require_once("views/RegisterView.phtml");
+} else {
+    require_once("views/LoginView.phtml");
+}
+
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: index.php?c=login');
     exit();
 }
-
-require_once("views/LoginView.phtml");
