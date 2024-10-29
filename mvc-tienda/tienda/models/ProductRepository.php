@@ -62,6 +62,5 @@ class ProductRepository
 	{
 		$db = Connect::connection();
 		$db->query("DELETE FROM products WHERE product_id = " . $id);
-		header("Location: index.php");
 	}
 }

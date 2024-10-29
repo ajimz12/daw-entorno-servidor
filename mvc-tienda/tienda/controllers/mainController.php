@@ -32,4 +32,9 @@ if (isset($_POST['search'])) {
     $products = ProductRepository::getProducts();
 }
 
+if (isset($_GET['deleteProduct'])) {
+    ProductRepository::deleteProduct($_GET['id']);
+    header('Location: index.php');
+}
+
 require_once('views/MainView.phtml');

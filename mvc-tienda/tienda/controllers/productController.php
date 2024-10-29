@@ -28,13 +28,8 @@ if (isset($_POST['addProduct'])) {
     exit();
 }
 
-if (isset($_GET['deleteProduct'])) {
-    ProductRepository::deleteProduct($_GET['product_id']);
-}
-
-
 if (isset($_GET['showUniqueProduct'])) {
     $product = ProductRepository::getProductById($_GET['product_id']);
-    require_once("views/ProductView.phtml");
-    die();
 }
+
+require_once("views/ProductView.phtml");
