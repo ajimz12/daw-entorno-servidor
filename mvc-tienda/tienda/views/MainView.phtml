@@ -19,7 +19,7 @@
         echo "<a href='index.php?c=login&login=1'>Login</a><br><br>";
     }
 
-    if ($_SESSION['user']->isAdmin()) {
+    if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin()) {
         echo '<a href="index.php?c=product&addProduct=1">Agregar Producto</a><br><br>';
     } 
 

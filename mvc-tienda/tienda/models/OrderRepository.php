@@ -20,4 +20,15 @@ class OrderRepository
         }
         return $orders;
     }
+
+    public static function getOrderById($orderId)
+    {
+        $db = Connect::connection();
+        $query = "SELECT * FROM orders WHERE id = '$orderId'";
+        $result = $db->query($query);
+        if ($row = $result->fetch_assoc()) {
+            return new Order($row);
+        }
+        return null;
+    }
 }
