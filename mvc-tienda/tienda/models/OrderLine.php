@@ -38,4 +38,8 @@ class OrderLine
     {
         return $this->unitary_price;
     }
+    public function getTotalPrice()
+    {
+        return $this->amount * $this->unitary_price;
+    }
 }

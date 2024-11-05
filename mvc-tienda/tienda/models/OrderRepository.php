@@ -3,6 +3,14 @@
 class OrderRepository
 {
 
+    public static function createEmptyOrder($user_id)
+    {
+        $db = Connect::connection();
+        $query = "INSERT INTO orders (user_id, order_date, total, status) VALUES ('$user_id', NOW(), 0, 'Pending')";
+        $db->query($query);
+        return $db->insert_id;
+    }
+
     public static function addOrder($order)
     {
         $db = Connect::connection();
@@ -30,5 +38,17 @@ class OrderRepository
             return new Order($row);
         }
         return null;
+    }
+
+    public static function getOrderByUserId($userId)
+    {
+        $db = Connect::connection();
+        $query = "SELECT * FROM orders WHERE user_id = '$userId'";
+        $result = $db->query($query);
+        $orders = array();
+        while ($row = $result->fetch_assoc()) {
+            $orders[] = new Order($row);
+        }
+        return $orders;
     }
 }

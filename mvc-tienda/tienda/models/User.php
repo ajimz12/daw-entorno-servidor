@@ -28,4 +28,10 @@ class User
     {
         return $this->isAdmin;
     }
+
+    public function getOrder()
+    {
+        $orderRepository = new OrderRepository();
+        return $orderRepository->getOrderByUserId($this->getUserId());
+    }
 }

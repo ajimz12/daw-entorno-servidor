@@ -16,12 +16,17 @@ class UserRepository
 
     public static function register($username, $password)
     {
-        $query = "INSERT INTO users (username, password, isAdmin) VALUES ('" . $username . "', '" . $password .  "', '" . 0 ."')";
-        $result = Connect::connection()->query($query);
-        if ($result) {
-            return true;
-        } else {
-            return false;
+        $db = Connect::connection();
+        $query = "INSERT INTO users (username, password, isAdmin) VALUES ('" . $username . "', '" . $password .  "', '" . 0 . "')";
+        if ($db->query($query)) {
+            $userId = $db->insert_id;
+            return new User([
+                'user_id' => $userId,
+                'username' => $username,
+                'isAdmin' => false
+            ]);
         }
+
+        return null;
     }
 }

@@ -22,7 +22,7 @@ if (isset($_GET['c']) && $_GET['c'] === 'product') {
 }
 
 if (isset($_GET['c']) && $_GET['c'] === 'cart') {
-    require_once("controllers/cartController.php");
+    require_once("controllers/orderController.php");
     exit();
 }
 
@@ -35,6 +35,12 @@ if (isset($_POST['search'])) {
 if (isset($_GET['deleteProduct'])) {
     ProductRepository::deleteProduct($_GET['id']);
     header('Location: index.php');
+}
+
+if (isset($_GET['addCart'])) {
+    if (isset($_SESSION['user'])) {
+        
+    }
 }
 
 require_once('views/MainView.phtml');

@@ -1,6 +1,8 @@
 <?php
 require_once("models/User.php");
+require_once("models/Order.php");
 require_once("models/UserRepository.php");
+require_once("models/OrderRepository.php");
 
 if (isset($_POST['login'])) {
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
@@ -23,6 +25,7 @@ if (isset($_POST['register'])) {
     $user = UserRepository::register($username, $password);
 
     if ($user) {
+        OrderRepository::createEmptyOrder($user->getUserId());
         $_SESSION['user'] = $user;
         header('Location: index.php?c=login');
         exit();
