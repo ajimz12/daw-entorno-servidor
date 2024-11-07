@@ -20,4 +20,10 @@ class OrderLineRepository
         }
         return $orderLines;
     }
+
+    public static function deleteOrderLine($orderLineId){
+        $db = Connect::connection();
+        $query = "DELETE FROM order_line WHERE order_line_id = ". $orderLineId;
+        $db->query($query);
+    }
 }

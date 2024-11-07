@@ -41,4 +41,9 @@ if (isset($_GET['deleteProduct'])) {
     header('Location: index.php');
 }
 
+if (isset($_GET['deleteOrderLine'])) {
+    OrderLineRepository::deleteOrderLine(orderLineId: $_GET['order_line_id']);
+    header('Location: index.php');
+}
+
 require_once('views/MainView.phtml');

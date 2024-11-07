@@ -43,7 +43,7 @@ class OrderRepository
     public static function getOrderByUserId($user_id)
     {
         $db = Connect::connection();
-        $query = "SELECT * FROM orders WHERE user_id = '$user_id' AND status = 'Pending' LIMIT 1";
+        $query = "SELECT * FROM orders WHERE user_id = '$user_id' AND status = 'Pendiente' LIMIT 1";
         $result = $db->query($query);
 
         if ($row = $result->fetch_assoc()) {

@@ -15,11 +15,16 @@
     foreach ($orders as $order) {
         echo "<h2>Pedido #" . $order->getOrderId() . "</h2>";
         echo "<p>Estado: " . $order->getStatus() . "</p>";
+        echo "<hr>";
 
         foreach ($order->getAllOrderLines() as $orderLine) {
 
             $product = ProductRepository::getProductById($orderLine->getProductId());
-            echo "<p>Producto: " . $product->getName() . "</p>";
+            echo "<p>Producto: <a href='index.php?c=product&showUniqueProduct=1&product_id=" . $product->getId() . "'>" . $product->getName() . "</a></p>";
+            echo "<p>Cantidad: " . $orderLine->getAmount() . "</p>";
+            echo "<p>Precio Total: " . $orderLine->getAmount() * $product->getPrice() . "</p><br>";
+            echo "<a href='index.php?deleteOrderLine=1&order_line_id=" . $orderLine->getOrderLineId() . "'>Eliminar</a><br>";
+            echo "<hr>";
         }
     }
     ?>

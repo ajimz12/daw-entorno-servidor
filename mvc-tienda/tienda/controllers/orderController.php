@@ -19,10 +19,12 @@ if (isset($_GET['addCart']) && isset($_SESSION['user'])) {
 
         OrderLineRepository::addOrderLine($orderLine);
     }
+    $orders = OrderRepository::getAllOrders();
+    require_once("views/CartView.phtml");
 }
+
 
 if (isset($_GET['cart'])) {
     $orders = OrderRepository::getAllOrders();
+    require_once("views/CartView.phtml");
 }
-
-require_once("views/CartView.phtml");
