@@ -28,6 +28,17 @@ class OrderRepository
         return $orders;
     }
 
+    public static function getAllOrdersByUserId($userId)
+    {
+        $db = Connect::connection();
+        $orders = array();
+        $result = $db->query("SELECT * FROM orders WHERE user_id = '$userId'");
+        while ($row = $result->fetch_assoc()) {
+            $orders[] = new Order($row);
+        }
+        return $orders;
+    }
+
     public static function getOrderById($orderId)
     {
         $db = Connect::connection();

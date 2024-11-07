@@ -14,7 +14,7 @@
     <?php
     foreach ($orders as $order) {
         if ($order->getAllOrderLines()) {
-            echo "<h2>Pedido #" . $order->getOrderId() . "</h2>";
+            echo "<h2>Pedido</h2>";
             echo "<p>Estado: " . $order->getStatus() . "</p>";
             echo "<hr>";
 
