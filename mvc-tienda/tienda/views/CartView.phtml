@@ -36,6 +36,7 @@
                 echo "<hr>";
             }
             echo "<h3>Total Pedido: " . $totalPedido . "€</h3>";
+            echo "<hr>";
 
             if ($order->getStatus() == "Pendiente") {
                 echo "<a href='index.php?c=order&payOrder=1&order_id=" . $order->getOrderId() . "'>Pagar Pedido</a><br>";

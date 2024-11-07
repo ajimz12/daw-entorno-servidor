@@ -42,7 +42,7 @@ class OrderRepository
     public static function getOrderById($orderId)
     {
         $db = Connect::connection();
-        $query = "SELECT * FROM orders WHERE id = '$orderId'";
+        $query = "SELECT * FROM orders WHERE order_id = '$orderId'";
         $result = $db->query($query);
         if ($row = $result->fetch_assoc()) {
             return new Order($row);
