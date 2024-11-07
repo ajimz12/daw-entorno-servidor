@@ -35,7 +35,7 @@ class ProductRepository
 
 		return null;
 	}
-	
+
 	public static function addProduct($product)
 	{
 		$db = Connect::connection();
@@ -62,5 +62,11 @@ class ProductRepository
 	{
 		$db = Connect::connection();
 		$db->query("DELETE FROM products WHERE product_id = " . $id);
+	}
+
+	public static function updateProductStock($productId, $stock)
+	{
+		$db = Connect::connection();
+		$db->query("UPDATE products SET stock = stock - " . $stock . " WHERE product_id = " . $productId);
 	}
 }

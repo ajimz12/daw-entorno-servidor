@@ -7,6 +7,16 @@ require_once("models/OrderLineRepository.php");
 
 if (isset($_GET['addCart']) && isset($_SESSION['user'])) {
     $order = OrderRepository::getOrderByUserId($_SESSION['user']->getUserId());
+    $orderLines = OrderLineRepository::getOrderLinesByOrderId($order->getOrderId());
+
+    foreach ($orderLines as $orderLine) {
+        if ($orderLine->getProductId() == $_GET['product_id']) {
+            $orderLine->setAmount($orderLine->getAmount() + 1);
+            OrderLineRepository::updateOrderLineAmount($orderLine, $orderLine->getAmount());
+            header("Location: index.php");
+            exit();
+        }
+    }
 
     if ($order) {
         $orderLine = new OrderLine([
@@ -23,8 +33,8 @@ if (isset($_GET['addCart']) && isset($_SESSION['user'])) {
     require_once("views/CartView.phtml");
 }
 
-
 if (isset($_GET['cart'])) {
     $orders = OrderRepository::getAllOrders();
     require_once("views/CartView.phtml");
 }
+

@@ -10,6 +10,12 @@ class OrderLineRepository
         $db->query($query);
     }
 
+    public static function updateOrderLineAmount($order_line, $amount){
+        $db = Connect::connection();
+        $query = "UPDATE order_line SET amount = ". $amount. " WHERE order_line_id = ". $order_line->getOrderLineId();
+        $db->query($query);
+    }
+
     public static function getOrderLinesByOrderId($order_id): array
     {
         $db = Connect::connection();

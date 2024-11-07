@@ -46,4 +46,14 @@ if (isset($_GET['deleteOrderLine'])) {
     header('Location: index.php');
 }
 
+if (isset($_GET['payOrder'])) {
+    $order = OrderRepository::getOrderByUserId($_SESSION['user']->getUserId());
+    OrderRepository::updateOrderStatus($order->getOrderId(), 'Pagado');
+
+    foreach ($order->getAllOrderLines() as $orderLine) {
+        ProductRepository::updateProductStock($orderLine->getProductId(), $orderLine->getAmount());
+    }
+    header('Location: index.php');
+}
+
 require_once('views/MainView.phtml');

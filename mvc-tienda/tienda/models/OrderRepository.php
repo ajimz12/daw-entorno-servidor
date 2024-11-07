@@ -51,4 +51,11 @@ class OrderRepository
         }
         return null;
     }
+
+    public static function updateOrderStatus($orderId, $status)
+    {
+        $db = Connect::connection();
+        $query = "UPDATE orders SET status = '$status' WHERE order_id = '$orderId'";
+        $db->query(query: $query);
+    }
 }

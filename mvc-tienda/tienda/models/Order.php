@@ -49,4 +49,9 @@ class Order
     {
         return $this->order_lines;
     }
+
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    }
 }

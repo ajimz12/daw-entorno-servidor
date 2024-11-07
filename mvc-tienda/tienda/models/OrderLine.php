@@ -42,4 +42,9 @@ class OrderLine
     {
         return $this->amount * $this->unitary_price;
     }
+
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    }
 }

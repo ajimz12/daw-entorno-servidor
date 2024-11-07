@@ -33,3 +33,4 @@ if (isset($_GET['showUniqueProduct'])) {
     require_once("views/ProductView.phtml");
 }
 
+

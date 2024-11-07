@@ -20,7 +20,7 @@
         echo '<p>Precio: ' . $product->getPrice() . '€</p>';
         echo '<p>Cantidad disponible: ' . $product->getStock() . ' unidades</p>';
 
-        if (isset($_SESSION['user'])) {
+        if (isset($_SESSION['user']) && $product->getStock() > 0) {
             echo '<a href="index.php?c=cart&addCart=1&product_id=' . $product->getId() . '&unitary_price=' . $product->getPrice() . '">Añadir al carrito</a><br><br>';
         }
 
