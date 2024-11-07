@@ -26,7 +26,6 @@ class UserRepository
                 'isAdmin' => false
             ]);
         }
-
         return null;
     }
 }
