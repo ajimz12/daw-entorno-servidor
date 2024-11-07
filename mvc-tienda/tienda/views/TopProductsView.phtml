@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOP Productos</title>
+</head>
+
+<body>
+
+    <h3>Top Productos Mas Vendidos</h3>
+
+    <?php
+    foreach ($topProducts as $product) {
+        echo "<p>" . $product->getName() . "</p>";
+    }
+    ?>
+
+</body>
+
+</html>

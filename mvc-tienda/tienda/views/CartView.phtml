@@ -35,6 +35,7 @@
                 echo "<br>";
                 echo "<hr>";
             }
+            OrderRepository::updateOrderTotal($order->getOrderId(), $totalPedido);
             echo "<h3>Total Pedido: " . $totalPedido . "€</h3>";
             echo "<hr>";
 

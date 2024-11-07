@@ -32,8 +32,22 @@ class ProductRepository
 		if ($row = $result->fetch_assoc()) {
 			return new Product($row);
 		}
-
 		return null;
+	}
+
+	public static function getTopProducts()
+	{
+
+		$db = Connect::connection();
+		$result = $db->query("SELECT product_id, SUM(amount) as total_amount FROM order_line GROUP BY product_id ORDER BY total_amount DESC LIMIT 5");
+		$products = array();
+		while ($row = $result->fetch_assoc()) {
+			$product = ProductRepository::getProductById($row['product_id']);
+			if ($product) {
+				$products[] = $product;
+			}
+		}
+		return $products;
 	}
 
 	public static function addProduct($product)

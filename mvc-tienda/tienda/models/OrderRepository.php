@@ -68,4 +68,10 @@ class OrderRepository
         $query = "UPDATE orders SET status = '$status' WHERE order_id = '$orderId'";
         $db->query(query: $query);
     }
+
+    public static function updateOrderTotal($orderId, $total)
+    {
+        $db = Connect::connection();
+        $db->query("UPDATE orders SET total = " . $total . " WHERE order_id = " . $orderId);
+    }
 }

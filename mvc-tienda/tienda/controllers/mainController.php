@@ -48,7 +48,7 @@ if (isset($_GET['deleteOrderLine'])) {
 
 if (isset($_GET['payOrder'])) {
     $order = OrderRepository::getOrderByUserId($_SESSION['user']->getUserId());
-    OrderRepository::updateOrderStatus($order->getOrderId(), 'Pagado');
+    OrderRepository::updateOrderStatus($order->getOrderId(), 'Confirmado');
 
     foreach ($order->getAllOrderLines() as $orderLine) {
         ProductRepository::updateProductStock($orderLine->getProductId(), $orderLine->getAmount());
@@ -56,4 +56,12 @@ if (isset($_GET['payOrder'])) {
     header('Location: index.php');
 }
 
-require_once('views/MainView.phtml');
+if (isset($_GET['viewTopProducts'])) {
+    $topProducts = ProductRepository::getTopProducts();
+    require_once('views/TopProductsView.phtml');
+} else if (isset($_GET['viewTopUsers'])) {
+    $topUsers = UserRepository::getTopUsers();
+    require_once('views/TopUsersView.phtml');
+} else {
+    require_once('views/MainView.phtml');
+}
