@@ -10,14 +10,14 @@ class Order
     private $order_lines = [];
 
 
-    public function __construct($data, $order_lines = [])
+    public function __construct($data)
     {
         $this->order_id = $data['order_id'];
         $this->user_id = $data['user_id'];
         $this->order_date = $data['order_date'];
         $this->total = $data['total'];
         $this->status = $data['status'];
-        $this->order_lines = $order_lines;
+        $this->order_lines = OrderLineRepository::getOrderLinesByOrderId($this->order_id);
     }
 
     public function getOrderId()
@@ -45,8 +45,8 @@ class Order
         return $this->status;
     }
 
-    public function addOrderLine(OrderLine $orderLine)
+    public function getAllOrderLines()
     {
-        $this->order_lines[] = $orderLine;
+        return $this->order_lines;
     }
 }

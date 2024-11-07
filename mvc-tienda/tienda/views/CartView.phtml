@@ -11,6 +11,19 @@
 
     <h1>Tu Carrito</h1>
 
+    <?php
+    foreach ($orders as $order) {
+        echo "<h2>Pedido #" . $order->getOrderId() . "</h2>";
+        echo "<p>Estado: " . $order->getStatus() . "</p>";
+
+        foreach ($order->getAllOrderLines() as $orderLine) {
+
+            $product = ProductRepository::getProductById($orderLine->getProductId());
+            echo "<p>Producto: " . $product->getName() . "</p>";
+        }
+    }
+    ?>
+
 </body>
 
 </html>

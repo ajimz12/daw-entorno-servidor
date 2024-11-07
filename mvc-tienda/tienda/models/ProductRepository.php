@@ -35,7 +35,7 @@ class ProductRepository
 
 		return null;
 	}
-
+	
 	public static function addProduct($product)
 	{
 		$db = Connect::connection();

@@ -1,8 +1,12 @@
 <?php
 require_once('models/User.php');
 require_once('models/Product.php');
+require_once("models/Order.php");
+require_once("models/OrderLine.php");
 require_once('models/UserRepository.php');
 require_once('models/ProductRepository.php');
+require_once("models/OrderRepository.php");
+require_once("models/OrderLineRepository.php");
 
 session_start();
 
@@ -35,12 +39,6 @@ if (isset($_POST['search'])) {
 if (isset($_GET['deleteProduct'])) {
     ProductRepository::deleteProduct($_GET['id']);
     header('Location: index.php');
-}
-
-if (isset($_GET['addCart'])) {
-    if (isset($_SESSION['user'])) {
-        
-    }
 }
 
 require_once('views/MainView.phtml');
