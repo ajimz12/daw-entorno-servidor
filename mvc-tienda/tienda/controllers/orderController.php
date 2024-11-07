@@ -34,7 +34,6 @@ if (isset($_GET['addCart']) && isset($_SESSION['user'])) {
 }
 
 if (isset($_GET['cart'])) {
-    $orders = OrderRepository::getAllOrders();
+    $orders = OrderRepository::getOrderByUserId($_SESSION['user']->getUserId());
     require_once("views/CartView.phtml");
 }
-

@@ -13,29 +13,33 @@
 
     <?php
     foreach ($orders as $order) {
-        if ($order->getAllOrderLines() > 0) {
+        if ($order->getAllOrderLines()) {
             echo "<h2>Pedido #" . $order->getOrderId() . "</h2>";
             echo "<p>Estado: " . $order->getStatus() . "</p>";
             echo "<hr>";
+
+            $totalPedido = 0;
 
             foreach ($order->getAllOrderLines() as $orderLine) {
                 $product = ProductRepository::getProductById($orderLine->getProductId());
                 echo "<p>Producto: <a href='index.php?c=product&showUniqueProduct=1&product_id=" . $product->getId() . "'>" . $product->getName() . "</a></p>";
                 echo "<p>Cantidad: " . $orderLine->getAmount() . "</p>";
-                echo "<p>Precio Total: " . $orderLine->getAmount() * $product->getPrice() . "</p><br>";
+                $precioTotalProducto = $orderLine->getAmount() * $product->getPrice();
+                echo "<p>Precio Total: " . $precioTotalProducto . "</p><br>";
+
+                $totalPedido += $precioTotalProducto;
+
                 if ($order->getStatus() == "Pendiente") {
                     echo "<a href='index.php?deleteOrderLine=1&order_line_id=" . $orderLine->getOrderLineId() . "'>Eliminar</a><br>";
                 }
-
                 echo "<br>";
                 echo "<hr>";
             }
+            echo "<h3>Total Pedido: " . $totalPedido . "€</h3>";
 
             if ($order->getStatus() == "Pendiente") {
                 echo "<a href='index.php?c=order&payOrder=1&order_id=" . $order->getOrderId() . "'>Pagar Pedido</a><br>";
             }
-        } else {
-            echo "<p>El carrito esta vacío</p>";
         }
     }
 

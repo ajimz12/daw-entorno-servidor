@@ -2,7 +2,6 @@
 
 class OrderRepository
 {
-
     public static function createEmptyOrder($user_id)
     {
         $db = Connect::connection();
