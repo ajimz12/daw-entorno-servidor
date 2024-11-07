@@ -5,7 +5,7 @@ class OrderRepository
     public static function createEmptyOrder($user_id)
     {
         $db = Connect::connection();
-        $query = "INSERT INTO orders (user_id, order_date, total, status) VALUES ('$user_id', NOW(), 0, 'Pendiente')";
+        $query = "INSERT INTO orders (user_id, order_date, total, status) VALUES ('$user_id', NOW(), 0, 'Carrito')";
         $db->query($query);
         return $db->insert_id;
     }
@@ -53,7 +53,7 @@ class OrderRepository
     public static function getOrderByUserId($user_id)
     {
         $db = Connect::connection();
-        $query = "SELECT * FROM orders WHERE user_id = '$user_id' AND status = 'Pendiente' LIMIT 1";
+        $query = "SELECT * FROM orders WHERE user_id = '$user_id' AND status = 'Carrito' LIMIT 1";
         $result = $db->query($query);
 
         if ($row = $result->fetch_assoc()) {

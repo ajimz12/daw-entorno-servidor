@@ -8,7 +8,7 @@ require_once("models/OrderLineRepository.php");
 if (isset($_GET['addCart']) && isset($_SESSION['user'])) {
     $order = OrderRepository::getOrderByUserId($_SESSION['user']->getUserId());
 
-    if (!$order || $order->getStatus() === 'Pagado') {
+    if (!$order || $order->getStatus() === 'Confirmado') {
         $newOrderId = OrderRepository::createEmptyOrder($_SESSION['user']->getUserId());
         $order = OrderRepository::getOrderById($newOrderId);
     }

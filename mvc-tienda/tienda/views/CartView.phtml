@@ -29,7 +29,7 @@
 
                 $totalPedido += $precioTotalProducto;
 
-                if ($order->getStatus() == "Pendiente") {
+                if ($order->getStatus() == "Carrito") {
                     echo "<a href='index.php?deleteOrderLine=1&order_line_id=" . $orderLine->getOrderLineId() . "'>Eliminar</a><br>";
                 }
                 echo "<br>";
@@ -39,7 +39,7 @@
             echo "<h3>Total Pedido: " . $totalPedido . "€</h3>";
             echo "<hr>";
 
-            if ($order->getStatus() == "Pendiente") {
+            if ($order->getStatus() == "Carrito") {
                 echo "<a href='index.php?c=order&payOrder=1&order_id=" . $order->getOrderId() . "'>Pagar Pedido</a><br>";
             }
         }
