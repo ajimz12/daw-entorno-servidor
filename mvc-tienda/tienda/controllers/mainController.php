@@ -51,7 +51,7 @@ if (isset($_GET['deleteOrderLine'])) {
     header('Location: index.php');
 }
 
-if (isset($_GET['payOrder'])) {
+if (isset($_POST['payOrder'])) {
     $order = OrderRepository::getOrderByUserId($_SESSION['user']->getUserId());
     OrderRepository::updateOrderStatus($order->getOrderId(), 'Confirmado');
 
@@ -59,6 +59,7 @@ if (isset($_GET['payOrder'])) {
         ProductRepository::updateProductStock($orderLine->getProductId(), $orderLine->getAmount());
     }
     header('Location: index.php');
+    exit();
 }
 
 if (isset($_GET['viewTopProducts'])) {

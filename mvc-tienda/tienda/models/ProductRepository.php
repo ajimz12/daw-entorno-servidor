@@ -38,28 +38,26 @@ class ProductRepository
 	public static function getTopProducts()
 	{
 		$db = Connect::connection();
-	
-		$sql = "SELECT p.* 
+
+		$result = $db->query("SELECT p.* 
 				FROM order_line AS ol
 				JOIN orders AS o ON ol.order_id = o.order_id
 				JOIN products AS p ON ol.product_id = p.product_id
 				WHERE o.status = 'Confirmado'
 				GROUP BY ol.product_id 
 				ORDER BY SUM(ol.amount) DESC 
-				LIMIT 5";
-	
-		// Ejecutamos la consulta
-		$result = $db->query($sql);
-	
-		// Almacenamos todos los productos obtenidos
+				LIMIT 5");
+
 		$products = array();
-		while ($product = $result->fetch_assoc()) {
-			$products[] = $product;
+		while ($row = $result->fetch_assoc()) {
+			$product = ProductRepository::getProductById($row['product_id']);
+			if ($product) {
+				$products[] = $product;
+			}
 		}
-	
 		return $products;
 	}
-	
+
 
 	public static function addProduct($product)
 	{

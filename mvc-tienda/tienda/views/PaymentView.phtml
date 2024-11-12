@@ -12,7 +12,7 @@
     <?php
     $paymentType = isset($_POST['paymentType']) ? $_POST['paymentType'] : '';
     ?>
-    <form method="POST" action="">
+    <form method="POST" action="index.php">
         <label for="paymentType">Elige el método de pago:</label>
         <select id="paymentType" name="paymentType" onchange="this.form.submit()">
             <option value="transfer" <?php if ($paymentType == 'transfer') echo 'selected'; ?>>Transferencia</option>
@@ -34,7 +34,7 @@
         <?php endif; ?>
 
         <br>
-        <button type="submit">Pagar</button>
+        <button type="submit" name="payOrder">Confirmar Pago</button>
     </form>
 </body>
 
