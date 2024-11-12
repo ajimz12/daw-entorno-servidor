@@ -25,7 +25,7 @@ if (isset($_POST['register'])) {
     $user = UserRepository::register($username, $password);
 
     if ($user) {
-        OrderRepository::createEmptyOrder($user->getUserId());
+        // OrderRepository::createEmptyOrder($user->getUserId());
         $_SESSION['user'] = $user;
         header('Location: index.php?c=login');
         exit();

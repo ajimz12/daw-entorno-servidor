@@ -40,7 +40,7 @@
             echo "<hr>";
 
             if ($order->getStatus() == "Carrito") {
-                echo "<a href='index.php?c=order&payOrder=1&order_id=" . $order->getOrderId() . "'>Pagar Pedido</a><br>";
+                echo "<a href='index.php?c=payOrder&payOrder=1&order_id=" . $order->getOrderId() . "'>Pagar Pedido</a><br>";
             }
         }
     }

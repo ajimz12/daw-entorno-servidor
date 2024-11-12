@@ -55,7 +55,7 @@ class UserRepository
     public static function getTopUsers()
     {
         $db = Connect::connection();
-        $result = $db->query("SELECT user_id, SUM(total) as total FROM orders GROUP BY order_id ORDER BY total DESC LIMIT 5");
+        $result = $db->query("SELECT user_id, SUM(total) as total FROM orders WHERE orders.status = 'Confirmado' GROUP BY order_id ORDER BY total DESC LIMIT 5");
         $users = array();
         while ($row = $result->fetch_assoc()) {
             $user = UserRepository::getUserById($row['user_id']);

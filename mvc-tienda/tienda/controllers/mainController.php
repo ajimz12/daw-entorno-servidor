@@ -30,6 +30,11 @@ if (isset($_GET['c']) && $_GET['c'] === 'cart') {
     exit();
 }
 
+if (isset($_GET['c']) && $_GET['c'] === 'payOrder') {
+    require_once("views/PaymentView.phtml");
+    exit();
+}
+
 if (isset($_POST['search'])) {
     $products = ProductRepository::getProductByName($_POST['search']);
 } else {

@@ -21,6 +21,7 @@
 
     if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin()) {
         echo '<a href="index.php?c=product&addProduct=1">Agregar Producto</a><br><br>';
+        echo '<a href="index.php?c=order&viewOrders=1">Ver Pedidos</a><br><br>';
     } 
 
 
