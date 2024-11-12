@@ -18,7 +18,7 @@ class OrderLine
     }
 
     // Getters
-    public function getOrderLineId()
+    public function getId()
     {
         return $this->order_line_id;
     }

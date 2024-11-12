@@ -30,36 +30,11 @@ if (isset($_GET['c']) && $_GET['c'] === 'cart') {
     exit();
 }
 
-if (isset($_GET['c']) && $_GET['c'] === 'payOrder') {
-    require_once("views/PaymentView.phtml");
-    exit();
-}
 
 if (isset($_POST['search'])) {
     $products = ProductRepository::getProductByName($_POST['search']);
 } else {
     $products = ProductRepository::getProducts();
-}
-
-if (isset($_GET['deleteProduct'])) {
-    ProductRepository::deleteProduct($_GET['id']);
-    header('Location: index.php');
-}
-
-if (isset($_GET['deleteOrderLine'])) {
-    OrderLineRepository::deleteOrderLine(orderLineId: $_GET['order_line_id']);
-    header('Location: index.php');
-}
-
-if (isset($_POST['payOrder'])) {
-    $order = OrderRepository::getOrderByUserId($_SESSION['user']->getUserId());
-    OrderRepository::updateOrderStatus($order->getOrderId(), 'Confirmado');
-
-    foreach ($order->getAllOrderLines() as $orderLine) {
-        ProductRepository::updateProductStock($orderLine->getProductId(), $orderLine->getAmount());
-    }
-    header('Location: index.php');
-    exit();
 }
 
 if (isset($_GET['viewTopProducts'])) {

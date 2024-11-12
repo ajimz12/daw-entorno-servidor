@@ -31,6 +31,13 @@ if (isset($_POST['addProduct'])) {
 if (isset($_GET['showUniqueProduct'])) {
     $product = ProductRepository::getProductById($_GET['product_id']);
     require_once("views/ProductView.phtml");
+    exit();
+}
+
+if (isset($_GET['deleteProduct'])) {
+    ProductRepository::deleteProduct($_GET['product_id']);
+    header('Location: index.php');
+    exit();
 }
 
 

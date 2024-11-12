@@ -14,7 +14,7 @@ class User
         $this->isAdmin = $data['isAdmin'];
     }
 
-    public function getUserId()
+    public function getId()
     {
         return $this->user_id;
     }
@@ -32,6 +32,6 @@ class User
     public function getOrder()
     {
         $orderRepository = new OrderRepository();
-        return $orderRepository->getOrderByUserId($this->getUserId());
+        return $orderRepository->getOrderByUserId($this->getId());
     }
 }

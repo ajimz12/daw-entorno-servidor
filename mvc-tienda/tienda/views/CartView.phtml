@@ -30,17 +30,17 @@
                 $totalPedido += $precioTotalProducto;
 
                 if ($order->getStatus() == "Carrito") {
-                    echo "<a href='index.php?deleteOrderLine=1&order_line_id=" . $orderLine->getOrderLineId() . "'>Eliminar</a><br>";
+                    echo "<a href='index.php?c=cart&deleteOrderLine=1&order_line_id=" . $orderLine->getId() . "'>Eliminar</a><br>";
                 }
                 echo "<br>";
                 echo "<hr>";
             }
-            OrderRepository::updateOrderTotal($order->getOrderId(), $totalPedido);
+            OrderRepository::updateOrderTotal($order->getId(), $totalPedido);
             echo "<h3>Total Pedido: " . $totalPedido . "€</h3>";
             echo "<hr>";
 
             if ($order->getStatus() == "Carrito") {
-                echo "<a href='index.php?c=payOrder&order_id=" . $order->getOrderId() . "'>Pagar Pedido</a><br>";
+                echo "<a href='index.php?c=cart&order_id=" . $order->getId() . "'>Pagar Pedido</a><br>";
             }
         }
     }

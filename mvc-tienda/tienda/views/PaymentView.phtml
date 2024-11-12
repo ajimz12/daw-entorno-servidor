@@ -12,7 +12,7 @@
     <?php
     $paymentType = isset($_POST['paymentType']) ? $_POST['paymentType'] : '';
     ?>
-    <form method="POST" action="index.php">
+    <form method="POST" action="index.php?c=cart" enctype="multipart/form-data">
         <label for="paymentType">Elige el método de pago:</label>
         <select id="paymentType" name="paymentType" onchange="this.form.submit()">
             <option value="transfer" <?php if ($paymentType == 'transfer') echo 'selected'; ?>>Transferencia</option>
@@ -20,7 +20,7 @@
         </select>
 
         <?php if ($paymentType == 'card'): ?>
-            <div id="cardFields" style="display: block;">
+            <div>
                 <h3>Detalles de la Tarjeta</h3>
                 <label for="cardNumber">Número de Tarjeta:</label>
                 <input type="text" id="cardNumber" name="cardNumber" maxlength="16" placeholder="1234 5678 9012 3456">

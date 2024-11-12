@@ -20,7 +20,7 @@ class Order
         $this->order_lines = OrderLineRepository::getOrderLinesByOrderId($this->order_id);
     }
 
-    public function getOrderId()
+    public function getId()
     {
         return $this->order_id;
     }
