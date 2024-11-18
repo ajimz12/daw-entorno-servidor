@@ -1,0 +1,29 @@
+--- USER ---
+
+id
+username
+password
+role
+
+--- PLAYLIST ---
+
+id
+playlist_title
+id_user
+
+--- SONG ---
+
+id
+song_title
+author_name
+duration
+id_playlist
+
+---
+
+
+<-- RELACIONES --> 
+
+PLAYLIST -- SONG | Relacion muchos a muchos
+USER -- PLAYLIST | Relacion 1 a muchos
+
