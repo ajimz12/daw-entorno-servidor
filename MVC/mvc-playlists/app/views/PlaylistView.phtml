@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <title>Playlists - Registro</title>
+    <title><?php echo $playlist->getTitle(); ?></title>
     <style>
         body {
             background-color: #302f2f;
@@ -27,19 +26,11 @@
         }
     </style>
 </head>
+</head>
 
 <body>
 
-    <h2>Registro</h2>
-    <?php if (isset($info)) echo "<p style='color:red;'>$info</p>"; ?>
-    <form action="index.php?c=register" method="POST">
-        <label for="username">Usuario:</label>
-        <input type="text" name="username" required><br><br>
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" required><br><br>
-        <input type="submit" name="register" value="Registrarse">
-    </form>
-
+    <h1><?php echo $playlist->getTitle(); ?></h1>
 
 </body>
 
