@@ -7,55 +7,53 @@
     <title>Tienda Online</title>
 </head>
 
-<a>
+<?php
 
+if (isset($_SESSION['user'])) {
+    echo "<h3>Bienvenido, " . $_SESSION['user']->getUsername() . "</h3>";
+    echo "<a href='index.php?c=login&logout=1'>Cerrar sesión</a><br><br>";
+    echo '<a href="index.php?c=cart&cart=1">Ver Carrito</a><br><br>';
+} else {
+    echo "<a href='index.php?c=login&login=1'>Login</a><br><br>";
+}
+
+if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin()) {
+    echo '<a href="index.php?c=product&addProduct=1">Agregar Producto</a><br><br>';
+    echo '<a href="index.php?c=order&viewOrders=1">Ver Pedidos</a><br><br>';
+}
+
+
+?>
+
+<h1>Tienda Online</h1>
+
+<form action="index.php?" method="POST">
+    <input type="text" name="search" placeholder="Nombre para la búsqueda">
+    <input type="submit" value="Busca">
+</form>
+
+<br>
+
+<a href="index.php?viewTopProducts">TOP PRODUCTOS</a>&nbsp;&nbsp;
+<a href="index.php?viewTopUsers">TOP USUARIOS</a>
+
+<h3>Productos</h3>
+
+<ul>
     <?php
 
-    if (isset($_SESSION['user'])) {
-        echo "<h3>Bienvenido, " . $_SESSION['user']->getUsername() . "</h3>";
-        echo "<a href='index.php?c=login&logout=1'>Cerrar sesión</a><br><br>";
-        echo '<a href="index.php?c=cart&cart=1">Ver Carrito</a><br><br>';
-    } else {
-        echo "<a href='index.php?c=login&login=1'>Login</a><br><br>";
+    foreach ($products as $product) {
+        $image = "./public/img/" . $product->getImage();
+
+        echo '<h2><a href="index.php?c=product&showUniqueProduct=1&product_id=' . $product->getId() . '">' . $product->getName() . '</a></h2>';
+        echo "<img src='" . $image . "' alt='" . $product->getName() . "' width='300' height='300'><br><br>";
+        if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin()) {
+            echo '<a href="index.php?c=product&deleteProduct=1&product_id=' . $product->getId() . '">Eliminar Producto</a><br><br>';
+        }
     }
 
-    if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin()) {
-        echo '<a href="index.php?c=product&addProduct=1">Agregar Producto</a><br><br>';
-        echo '<a href="index.php?c=order&viewOrders=1">Ver Pedidos</a><br><br>';
-    } 
-
-
     ?>
-
-    <h1>Tienda Online</h1>
-
-    <form action="index.php?" method="POST">
-        <input type="text" name="search" placeholder="Nombre para la búsqueda">
-        <input type="submit" value="Busca">
-    </form>
-
-    <br>
-
-    <a href="index.php?viewTopProducts">TOP PRODUCTOS</a>&nbsp;&nbsp;
-    <a href="index.php?viewTopUsers">TOP USUARIOS</a>
-
-    <h3>Productos</h3>
-
-    <ul>
-        <?php
-
-        foreach ($products as $product) {
-            $image = "./public/img/" . $product->getImage();
-
-            echo '<h2><a href="index.php?c=product&showUniqueProduct=1&product_id=' . $product->getId() . '">' . $product->getName() . '</a></h2>';
-            echo "<img src='" . $image . "' alt='" . $product->getName() . "' width='300' height='300'><br><br>";
-            if (isset($_SESSION['user']) && $_SESSION['user']->isAdmin()) {
-                echo '<a href="index.php?c=product&deleteProduct=1&product_id=' . $product->getId() . '">Eliminar Producto</a><br><br>';
-            }
-        }
-
-        ?>
-    </ul>
+</ul>
 
 
 </body>
