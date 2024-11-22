@@ -24,11 +24,34 @@ class PlaylistRepository
         $db = Connect::connection();
         $result = $db->query("SELECT * FROM playlists WHERE id = '$playlistId'");
         if ($row = $result->fetch_assoc()) {
-            return new Playlist($row);
+            return new Playlist([
+                'id' => $row['id'],
+                'title' => $row['title'],
+                'totalDuration' => $row['totalDuration'],
+                'userId' => $row['user_id']
+            ]);
         } else {
             return false;
         }
     }
+
+    public static function getPlaylistUser($playlist)
+    {
+
+        $userId = $playlist->getUserId();
+        if (!$userId) {
+            return false;
+        }
+
+        $db = Connect::connection();
+        $result = $db->query("SELECT * FROM users WHERE id = '" . $playlist->getUserId() . "'");
+        if ($row = $result->fetch_assoc()) {
+            return new User($row);
+        } else {
+            return false;
+        }
+    }
+
 
 
     public static function addPlaylist($title, $totalDuration, $user)
