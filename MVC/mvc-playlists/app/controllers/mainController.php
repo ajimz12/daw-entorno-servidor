@@ -21,10 +21,15 @@ if (isset($_GET['c']) && $_GET['c'] === 'playlist') {
     exit();
 }
 
+if (isset($_GET['c']) && $_GET['c'] === 'song') {
+    require_once("controllers/songController.php");
+    exit();
+}
+
 if (isset($_SESSION['user'])) {
 
     $playlists = PlaylistRepository::getAllPlaylistsByUser($_SESSION['user']);
 }
 
 
-require_once("views/MainView.phtml");
+require_once("views/mainView.phtml");

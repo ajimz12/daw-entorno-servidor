@@ -41,7 +41,7 @@ if (isset($_GET['logout'])) {
 }
 
 if (isset($_GET['register'])) {
-    require_once("views/RegisterView.phtml");
+    require_once("views/registerView.phtml");
 } else {
-    require_once("views/LoginView.phtml");
+    require_once("views/loginView.phtml");
 }

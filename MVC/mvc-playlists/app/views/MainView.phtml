@@ -49,7 +49,7 @@
             <input type="submit" value="Crear">
         </form><br>
 
-        <hr>
+        <hr><br>
 
         <h3>Subir Cancion</h3>
         <form action="index.php?c=song&addSong=1" method="POST" enctype="multipart/form-data">
@@ -57,13 +57,19 @@
             <input type="text" name="songName" required>&nbsp;<br><br>
             <label for="author">Autor:</label>
             <input type="text" name="author" required><br><br>
+            <label for="duration">Duración (mm:ss):</label>
+            <input type="text" id="duration" name="duration" pattern="^\d{1,2}:\d{2}$" placeholder="mm:ss" required>
+            <small>Ejemplo: 03:30</small><br><br>
             <label for="mp3File">Subir Archivo MP3</label>
             <input type="file" id="mp3File" name="mp3File" accept=".mp3" required><br><br>
             <input type="submit" value="Subir">
         </form><br><br>
+        <hr><br>
+
+        <h3>Descubre <a href="index.php?c=song&viewSongs=1">Canciones</a></h3><br>
 
 
-        <h3>Tus Playlists</h3>
+        <h2>Tus Playlists</h2>
     <?php
         if ($playlists) {
             foreach ($playlists as $playlist) {

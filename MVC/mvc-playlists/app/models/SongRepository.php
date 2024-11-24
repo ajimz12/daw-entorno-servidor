@@ -3,7 +3,7 @@
 class SongRepository
 {
 
-    public function getAllSongs()
+    public static function getAllSongs()
     {
         $db = Connect::connection();
         $query = "SELECT * FROM songs";
@@ -15,5 +15,34 @@ class SongRepository
         return $songs;
     }
 
-    public function addSong(Song $song) {}
+    public static function getSongByTitle($title)
+    {
+        $db = Connect::connection();
+        $query = "SELECT * FROM songs WHERE title LIKE '%" . $title . "%'";
+        $result = $db->query($query);
+        $songs = array();
+        while ($row = $result->fetch_assoc()) {
+            $songs[] = new Song($row);
+        }
+        return $songs;
+    }
+
+    public static function addSong($title, $author, $duration, $urlFile, $user)
+    {
+        $db = Connect::connection();
+        $query = "INSERT INTO songs (title, author, duration, urlFile, user_id) VALUES ('" . $title . "', '" . $author . "', '" . $duration
+            . "', '" . $urlFile .  "', '" . $user->getId() . "')";
+        if ($db->query($query)) {
+            $playlistId = $db->insert_id;
+            return new Song([
+                'id' => $playlistId,
+                'title' => $title,
+                'author' => $author,
+                'duration' => $duration,
+                'urlFile' => $urlFile
+            ]);
+        } else {
+            return false;
+        }
+    }
 }

@@ -14,6 +14,6 @@ if (isset($_GET['addPlaylist'])) {
 
 if(isset($_GET['playlist_id'])){
     $playlist = PlaylistRepository::getPlaylistById($_GET['playlist_id']);
-    require_once("views/PlaylistView.phtml");
+    require_once("views/playListView.phtml");
     exit();
 }
