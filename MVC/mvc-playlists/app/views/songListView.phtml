@@ -36,16 +36,36 @@
 
     <h1>Canciones</h1>
 
-    <h3>Tus canciones</h3>
+    <h2>Tus canciones</h2>
 
-    <!-- TODO: Aquí se mostrarán las canciones del usuario -->
+    <?php
+    if ($userSongs) {
+        foreach ($userSongs as $userSong) {
+            echo $userSong->getTitle() . " - " . $userSong->getAuthor() . "<br><br>";
+            echo "<audio controls>";
+            echo "<source src='" . $userSong->getUrlFile() . "' type='audio/mpeg'>";
+            echo "</audio><br><br>";
+        }
+    } else {
+        echo "<p>No tienes canciones creadas</p>";
+    }
 
-    <h3>Todas las canciones</h3>
+    ?>
+
+    <hr>
+
+
+    <h2>Todas las canciones</h2>
 
     <form action="index.php?c=song" method="POST">
-        <input type="text" name="searchSong" placeholder="Buscar cancion">
+        <input type="text" name="searchSong" placeholder="Buscar canción">
+        <select name="searchType">
+            <option value="title">Título</option>
+            <option value="author">Autor</option>
+        </select>
         <input type="submit" value="Buscar">
     </form><br>
+
 
     <?php
     if ($songs) {
@@ -54,6 +74,22 @@
             echo "<audio controls>";
             echo "<source src='" . $song->getUrlFile() . "' type='audio/mpeg'>";
             echo "</audio><br><br>";
+    ?>
+
+            <form action="index.php?c=song" method="GET">
+                <input list="playlists" name="playlist" id="playlist" placeholder="Añadir a playlist...">
+                <datalist id="playlists">
+                    <?php
+                    foreach ($playlists as $playlist) {
+                        echo "<option value='" . $playlist->getTitle() . "'>";
+                    }
+                    ?>
+
+                </datalist>
+                <input type="submit" value="Añadir">
+            </form><br>
+
+    <?php
         }
     } else {
         echo "<p>No se encuentran canciones</p>";

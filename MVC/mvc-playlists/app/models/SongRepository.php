@@ -27,6 +27,32 @@ class SongRepository
         return $songs;
     }
 
+    public static function getSongByAuthor($author)
+    {
+        $db = Connect::connection();
+        $query = "SELECT * FROM songs WHERE author LIKE '%" . $author . "%'";
+        $result = $db->query($query);
+        $songs = array();
+        while ($row = $result->fetch_assoc()) {
+            $songs[] = new Song($row);
+        }
+        return $songs;
+    }
+
+    public static function getSongByUser($user)
+    {
+        $userId = $user->getId();
+        $db = Connect::connection();
+
+        $query = "SELECT * FROM songs WHERE user_id = '$userId'";
+        $result = $db->query($query);
+        $songs = array();
+        while ($row = $result->fetch_assoc()) {
+            $songs[] = new Song($row);
+        }
+        return $songs;
+    }
+
     public static function addSong($title, $author, $duration, $urlFile, $user)
     {
         $db = Connect::connection();

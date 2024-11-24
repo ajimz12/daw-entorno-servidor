@@ -2,19 +2,30 @@
 
 require_once("models/Song.php");
 require_once("models/SongRepository.php");
+require_once("models/PlaylistRepository.php");
 
+$userSongs = [];
+$userSongs = SongRepository::getSongByUser($_SESSION["user"]);
+$playlists = PlaylistRepository::getAllPlaylistsByUser($_SESSION["user"]);
 
 if (isset($_GET["viewSongs"])) {
     $songs = SongRepository::getAllSongs();
-    require_once("views/songListView.phtml");
 }
 
-if (isset($_POST['searchSong'])) {
-    $songs = SongRepository::getSongByTitle($_POST['searchSong']);
+if (isset($_POST['searchSong']) && isset($_POST['searchType'])) {
+    $searchQuery = trim($_POST['searchSong']);
+    $searchType = $_POST['searchType'];
+
+    if ($searchType === "title") {
+        $songs = SongRepository::getSongByTitle($searchQuery); // Filtra por título
+    } elseif ($searchType === "author") {
+        $songs = SongRepository::getSongByAuthor($searchQuery);
+    } else {
+        $songs = [];
+    }
 } else {
     $songs = SongRepository::getAllSongs();
 }
-
 
 if (isset($_GET['addSong'])) {
     $user = $_SESSION['user'];
@@ -24,7 +35,7 @@ if (isset($_GET['addSong'])) {
 
     if (isset($_FILES['mp3File']) && $_FILES['mp3File']['error'] === UPLOAD_ERR_OK) {
         $mp3File = $_FILES['mp3File'];
-        $uploadDir = './data/mp3/';
+        $uploadDir = './public/mp3/';
         $uploadPath = $uploadDir . basename($mp3File['name']);
         $urlFile = $uploadPath;
 
