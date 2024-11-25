@@ -76,8 +76,8 @@
             echo "</audio><br><br>";
     ?>
 
-            <form action="index.php?c=song" method="GET">
-                <input list="playlists" name="playlist" id="playlist" placeholder="Añadir a playlist...">
+            <form action="index.php?c=song&addSongToPlaylist=1&songId=<?php $song->getId() ?>" method="POST">
+                <input list="playlists" name="playlists" id="playlist" placeholder="Añadir a playlist...">
                 <datalist id="playlists">
                     <?php
                     foreach ($playlists as $playlist) {

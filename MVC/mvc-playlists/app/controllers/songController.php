@@ -4,7 +4,7 @@ require_once("models/Song.php");
 require_once("models/SongRepository.php");
 require_once("models/PlaylistRepository.php");
 
-$userSongs = [];
+
 $userSongs = SongRepository::getSongByUser($_SESSION["user"]);
 $playlists = PlaylistRepository::getAllPlaylistsByUser($_SESSION["user"]);
 
@@ -17,7 +17,7 @@ if (isset($_POST['searchSong']) && isset($_POST['searchType'])) {
     $searchType = $_POST['searchType'];
 
     if ($searchType === "title") {
-        $songs = SongRepository::getSongByTitle($searchQuery); // Filtra por título
+        $songs = SongRepository::getSongByTitle($searchQuery);
     } elseif ($searchType === "author") {
         $songs = SongRepository::getSongByAuthor($searchQuery);
     } else {
@@ -45,6 +45,12 @@ if (isset($_GET['addSong'])) {
             exit();
         }
     }
+}
+
+if (isset($_GET["addSongToPlaylist"])) {
+    $playlist = $_POST['playlists'];
+    $song = $_GET['songId'];
+    SongRepository::addSongToPlaylist($playlist, $song);
 }
 
 require_once("views/songListView.phtml");
