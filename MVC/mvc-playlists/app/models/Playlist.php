@@ -14,6 +14,7 @@ class Playlist
         $this->title = $datos['title'];
         $this->totalDuration = $datos['totalDuration'];
         $this->userId = $datos['userId'] ?? null;
+        $songs = PlaylistRepository::getAllSongsByPlaylist($this);
     }
 
     public function getId()
@@ -39,5 +40,10 @@ class Playlist
     public function getUser()
     {
         return PlaylistRepository::getPlaylistUser($this);
+    }
+
+    public function getSongs()
+    {
+        return PlaylistRepository::getAllSongsByPlaylist($this);
     }
 }

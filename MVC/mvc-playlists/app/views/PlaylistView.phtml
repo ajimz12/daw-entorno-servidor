@@ -32,6 +32,21 @@
 
     <h1><?php echo $playlist->getTitle(); ?></h1>
     <p><?php echo "Creada por " . $playlist->getUser()->getUsername() ?></p>
+    <br>
+
+    <?php
+
+    if ($songs) {
+        foreach ($songs as $song) {
+            echo $song->getTitle() . " - " . $song->getAuthor() . "<br><br>";
+            echo "<audio controls>";
+            echo "<source src='" . $song->getUrlFile() . "' type='audio/mpeg'>";
+            echo "</audio><br><br>";
+        }
+    } else {
+        echo "<p>No hay canciones en esta playlist.</p>";
+    }
+    ?>
 
 </body>
 

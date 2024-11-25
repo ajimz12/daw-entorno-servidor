@@ -47,10 +47,14 @@ if (isset($_GET['addSong'])) {
     }
 }
 
-if (isset($_GET["addSongToPlaylist"])) {
+if (isset($_POST["playlists"]) && isset($_POST["song_id"])) {
     $playlist = $_POST['playlists'];
-    $song = $_GET['songId'];
-    SongRepository::addSongToPlaylist($playlist, $song);
+    $songId = $_POST['song_id'];
+    SongRepository::addSongToPlaylist($playlist, $songId);
+} else {
+    echo "Error: Faltan datos para procesar la solicitud.";
 }
+
+
 
 require_once("views/songListView.phtml");

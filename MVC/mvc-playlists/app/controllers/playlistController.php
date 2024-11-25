@@ -12,8 +12,9 @@ if (isset($_GET['addPlaylist'])) {
     exit();
 }
 
-if(isset($_GET['playlist_id'])){
+if (isset($_GET['playlist_id'])) {
     $playlist = PlaylistRepository::getPlaylistById($_GET['playlist_id']);
+    $songs = PlaylistRepository::getAllSongsByPlaylist($playlist);
     require_once("views/playListView.phtml");
     exit();
 }

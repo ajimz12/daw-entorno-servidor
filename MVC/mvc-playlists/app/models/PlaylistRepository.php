@@ -1,5 +1,7 @@
 <?php
 
+require_once("./models/Song.php");
+
 class PlaylistRepository
 {
 
@@ -52,6 +54,18 @@ class PlaylistRepository
         }
     }
 
+
+    public static function getAllSongsByPlaylist($playlist)
+    {
+        $playlistId = $playlist->getId();
+        $db = Connect::connection();
+        $result = $db->query("SELECT * FROM songs JOIN playlists_songs WHERE playlists_songs.song_id = songs.id AND playlists_songs.playlist_id = '$playlistId'");
+        $songs = array();
+        while ($row = $result->fetch_assoc()) {
+            $songs[] = new Song($row);
+        }
+        return $songs;
+    }
 
 
     public static function addPlaylist($title, $totalDuration, $user)

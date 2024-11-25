@@ -76,7 +76,8 @@
             echo "</audio><br><br>";
     ?>
 
-            <form action="index.php?c=song&addSongToPlaylist=1&songId=<?php $song->getId() ?>" method="POST">
+            <form action="index.php?c=song&addSongToPlaylist=1" method="POST">
+                <input type="hidden" name="song_id" value="<?php echo $song->getId(); ?>">
                 <input list="playlists" name="playlists" id="playlist" placeholder="Añadir a playlist...">
                 <datalist id="playlists">
                     <?php
@@ -84,10 +85,10 @@
                         echo "<option value='" . $playlist->getTitle() . "'>";
                     }
                     ?>
-
                 </datalist>
                 <input type="submit" value="Añadir">
             </form><br>
+
 
     <?php
         }
