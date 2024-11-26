@@ -5,6 +5,17 @@ require_once("./models/Song.php");
 class PlaylistRepository
 {
 
+    public static function getAllPlaylists()
+    {
+        $db = Connect::connection();
+        $playlists = array();
+        $result = $db->query("SELECT * FROM playlists");
+        while ($row = $result->fetch_assoc()) {
+            $playlists[] = new Playlist($row);
+        }
+        return $playlists;
+    }
+
     public static function getAllPlaylistsByUser($user)
     {
         $db = Connect::connection();
@@ -83,5 +94,53 @@ class PlaylistRepository
         } else {
             return false;
         }
+    }
+
+    public static function addSongToPlaylist($playlistName, $songId)
+    {
+        $db = Connect::connection();
+
+        $query = "INSERT INTO playlists_songs (playlist_id, song_id) 
+                  VALUES ((SELECT id FROM playlists WHERE playlists.title = '" . $playlistName . "'), '$songId')";
+
+        if ($db->query($query)) {
+            $playlistIdResult = $db->query("SELECT id FROM playlists WHERE title = '" . $playlistName . "'");
+            if ($playlistIdRow = $playlistIdResult->fetch_assoc()) {
+                $playlistId = $playlistIdRow['id'];
+
+                return self::updatePlaylistDuration($playlistId);
+            }
+        }
+
+        return false;
+    }
+
+    public static function updatePlaylistDuration($playlistId)
+    {
+        $db = Connect::connection();
+
+        $query = "SELECT SUM(songs.duration) as totalDuration 
+              FROM songs 
+              JOIN playlists_songs ON songs.id = playlists_songs.song_id 
+              WHERE playlists_songs.playlist_id = '$playlistId'";
+
+        $result = $db->query($query);
+
+        if ($row = $result->fetch_assoc()) {
+            $totalDuration = $row['totalDuration'] ?? 0;
+        } else {
+            $totalDuration = 0;
+        }
+
+        $updateQuery = "UPDATE playlists SET totalDuration = '$totalDuration' WHERE id = '$playlistId'";
+        return $db->query($updateQuery);
+    }
+
+    public static function addPlaylistToFavorites($playlist)
+    {
+        $db = Connect::connection();
+        $userId = $_SESSION['user']->getId();
+        $query = "INSERT INTO favorites (id_user, id_playlist) VALUES ('$userId', '" . $playlist->getId() . "')";
+        return $db->query($query);
     }
 }

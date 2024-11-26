@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Playlists</title>
+    <style>
+        body {
+            background-color: #302f2f;
+            color: #FFFFFF;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Playlists de la comunidad</h1>
+    <h3>Descubre las playlists de otros usuarios</h3>
+
+
+    <?php
+    if ($playlists) {
+        foreach ($playlists as $playlist) {
+            echo "<a href='index.php?c=playlist&playlist_id=" . $playlist->getId() . "'>" . $playlist->getTitle() . "</a><br>";
+        }
+    } else {
+        echo "<p>No hay playlists disponibles, ¡Sigue creando tus propias!</p>";
+    }
+    ?>
+
+</body>
+
+</html>

@@ -42,32 +42,31 @@
         echo "<a href='index.php?c=login&logout=1'>Cerrar sesión</a><br><br>";
 
     ?>
+
+        <h3>Descubre <a href="index.php?c=song&viewSongs=1">Canciones</a></h3>
+        <h3>Descubre <a href="index.php?c=playlist&viewPlaylists=1">Playlists</a></h3><br>
+        <hr><br>
+
+
         <h3>Crear Playlist</h3>
         <form action="index.php?c=playlist&addPlaylist=1" method="POST">
-            <label for="playlistName">Nombre de la playlist:</label>
-            <input type="text" name="playlistName" required>&nbsp;
+            <input type="text" name="playlistName" placeholder="Nombre" required>&nbsp;
             <input type="submit" value="Crear">
-        </form><br>
+        </form><br><br>
 
         <hr><br>
 
         <h3>Subir Cancion</h3>
         <form action="index.php?c=song&addSong=1" method="POST" enctype="multipart/form-data">
-            <label for="songName">Nombre de la cancion:</label>
-            <input type="text" name="songName" required>&nbsp;<br><br>
-            <label for="author">Autor:</label>
-            <input type="text" name="author" required><br><br>
-            <label for="duration">Duración (mm:ss):</label>
-            <input type="text" id="duration" name="duration" pattern="^\d{1,2}:\d{2}$" placeholder="mm:ss" required>
+            <input type="text" name="songName" placeholder="Titulo" required>&nbsp;<br><br>
+            <input type="text" name="author" placeholder="Autor" required><br><br>
+            <input type="text" id="duration" name="duration" pattern="^\d{1,2}:\d{2}$" placeholder="Duracion (mm:ss)" required>
             <small>Ejemplo: 03:30</small><br><br>
             <label for="mp3File">Subir Archivo MP3</label>
             <input type="file" id="mp3File" name="mp3File" accept=".mp3" required><br><br>
             <input type="submit" value="Subir">
         </form><br><br>
         <hr><br>
-
-        <h3>Descubre <a href="index.php?c=song&viewSongs=1">Canciones</a></h3><br>
-
 
         <h2>Tus Playlists</h2>
     <?php
@@ -83,6 +82,7 @@
     }
 
     ?>
+    <br>
 
 </body>
 

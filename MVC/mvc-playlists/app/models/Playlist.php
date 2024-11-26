@@ -2,11 +2,11 @@
 
 class Playlist
 {
-
     private $id;
     private $title;
     private $totalDuration;
     private $userId;
+    private $songs;
 
     function __construct($datos)
     {
@@ -14,7 +14,7 @@ class Playlist
         $this->title = $datos['title'];
         $this->totalDuration = $datos['totalDuration'];
         $this->userId = $datos['userId'] ?? null;
-        $songs = PlaylistRepository::getAllSongsByPlaylist($this);
+        $this->songs = PlaylistRepository::getAllSongsByPlaylist($this);
     }
 
     public function getId()
@@ -44,6 +44,11 @@ class Playlist
 
     public function getSongs()
     {
-        return PlaylistRepository::getAllSongsByPlaylist($this);
+        return $this->songs;
+    }
+
+    public function getNumberOfSongs()
+    {
+        return count($this->songs);
     }
 }

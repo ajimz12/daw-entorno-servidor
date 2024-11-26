@@ -71,13 +71,4 @@ class SongRepository
             return false;
         }
     }
-
-    public static function addSongToPlaylist($playlistName, $songId)
-    {
-        $db = Connect::connection();
-        echo $playlistName;
-        $query = "INSERT INTO playlists_songs (playlist_id, song_id) 
-        VALUES ((SELECT id FROM playlists WHERE playlists.title = '" . $playlistName . "'), '$songId')";
-        return $db->query($query);
-    }
 }

@@ -31,7 +31,10 @@ if (isset($_GET['addSong'])) {
     $user = $_SESSION['user'];
     $songName = $_POST['songName'];
     $author = $_POST['author'];
+
     $duration = $_POST['duration'];
+    list($minutes, $seconds) = explode(':', $duration);
+    $totalSeconds = (int)$minutes * 60 + (int)$seconds;
 
     if (isset($_FILES['mp3File']) && $_FILES['mp3File']['error'] === UPLOAD_ERR_OK) {
         $mp3File = $_FILES['mp3File'];
@@ -40,19 +43,18 @@ if (isset($_GET['addSong'])) {
         $urlFile = $uploadPath;
 
         if (move_uploaded_file($mp3File['tmp_name'], $uploadPath)) {
-            SongRepository::addSong($songName, $author, $duration, $urlFile, $user);
+            SongRepository::addSong($songName, $author, $totalSeconds, $urlFile, $user);
             header('Location: index.php');
             exit();
         }
     }
 }
 
+
 if (isset($_POST["playlists"]) && isset($_POST["song_id"])) {
     $playlist = $_POST['playlists'];
     $songId = $_POST['song_id'];
-    SongRepository::addSongToPlaylist($playlist, $songId);
-} else {
-    echo "Error: Faltan datos para procesar la solicitud.";
+    PlaylistRepository::addSongToPlaylist($playlist, $songId);
 }
 
 

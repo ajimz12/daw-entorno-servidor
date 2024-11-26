@@ -3,6 +3,10 @@
 require_once("models/Playlist.php");
 require_once("models/PlaylistRepository.php");
 
+if (isset($_GET["viewPlaylists"])) {
+    $playlists = PlaylistRepository::getAllPlaylists();
+}
+
 if (isset($_GET['addPlaylist'])) {
     $user = $_SESSION['user'];
     $playlistName = $_POST['playlistName'];
@@ -18,3 +22,12 @@ if (isset($_GET['playlist_id'])) {
     require_once("views/playListView.phtml");
     exit();
 }
+
+if (isset($_GET['addToFavorites'])) {
+    $playlist = PlaylistRepository::getPlaylistById($_GET['playlistIdFavorite']);
+    PlaylistRepository::addPlaylistToFavorites($playlist);
+    header('Location: index.php?c=playlist&viewPlaylists=1');
+    exit();
+}
+
+require_once("views/playlistListView.phtml");
