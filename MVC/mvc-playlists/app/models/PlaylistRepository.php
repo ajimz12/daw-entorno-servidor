@@ -48,6 +48,18 @@ class PlaylistRepository
         }
     }
 
+    public static function getPlaylistByTitle($title)
+    {
+        $db = Connect::connection();
+        $query = "SELECT * FROM playlists WHERE title LIKE '%" . $title . "%'";
+        $result = $db->query($query);
+        $playlists = array();
+        while ($row = $result->fetch_assoc()) {
+            $playlists[] = new Playlist($row);
+        }
+        return $playlists;
+    }
+
     public static function getPlaylistUser($playlist)
     {
 
@@ -63,6 +75,22 @@ class PlaylistRepository
         } else {
             return false;
         }
+    }
+
+    public static function getAllFavoritePlaylists($user)
+    {
+        $db = Connect::connection();
+
+        $userId = $user->getId();
+        $playlists = array();
+
+        $result = $db->query("SELECT * FROM playlists JOIN favorites ON(playlists.id = favorites.id_playlist) WHERE favorites.id_user = '" . $userId . "'");
+
+        while ($row = $result->fetch_assoc()) {
+            $playlists[] = new Playlist($row);
+        }
+
+        return $playlists;
     }
 
 

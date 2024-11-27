@@ -29,6 +29,7 @@ if (isset($_GET['c']) && $_GET['c'] === 'song') {
 if (isset($_SESSION['user'])) {
 
     $playlists = PlaylistRepository::getAllPlaylistsByUser($_SESSION['user']);
+    $favoritePlaylists = PlaylistRepository::getAllFavoritePlaylists($_SESSION['user']);
 }
 
 

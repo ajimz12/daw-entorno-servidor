@@ -3,7 +3,11 @@
 require_once("models/Playlist.php");
 require_once("models/PlaylistRepository.php");
 
-if (isset($_GET["viewPlaylists"])) {
+
+if (isset($_POST['searchPlaylists'])) {
+    $searchParam = trim($_POST['playlistTitle']);
+    $playlists = PlaylistRepository::getPlaylistByTitle($searchParam);
+} else {
     $playlists = PlaylistRepository::getAllPlaylists();
 }
 

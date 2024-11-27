@@ -33,7 +33,7 @@
 </head>
 
 <body>
-    <h2>Espotify</h2>
+    <h1>Playlists</h1>
 
     <?php
 
@@ -76,6 +76,13 @@
             }
         } else {
             echo "<p>No tienes playlists, ¿a que esperas?</p><br>";
+        }
+
+        echo "<br><br><h2>Tus Playlists Favoritas</h2>";
+        if ($favoritePlaylists) {
+            foreach ($favoritePlaylists as $favoritePlaylist) {
+                echo "<a href='index.php?c=playlist&playlist_id=" . $favoritePlaylist->getId() . "'>" . $favoritePlaylist->getTitle() . "</a><br>";
+            }
         }
     } else {
         echo "<p>Bienvenido, puedes iniciar sesión <a href='index.php?c=login&login=1'>aquí</a></p><br>";

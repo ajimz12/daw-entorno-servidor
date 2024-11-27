@@ -6,20 +6,15 @@ require_once("models/PlaylistRepository.php");
 
 
 $userSongs = SongRepository::getSongByUser($_SESSION["user"]);
-$playlists = PlaylistRepository::getAllPlaylistsByUser($_SESSION["user"]);
-
-if (isset($_GET["viewSongs"])) {
-    $songs = SongRepository::getAllSongs();
-}
 
 if (isset($_POST['searchSong']) && isset($_POST['searchType'])) {
-    $searchQuery = trim($_POST['searchSong']);
+    $searchParam = trim($_POST['searchSong']);
     $searchType = $_POST['searchType'];
 
     if ($searchType === "title") {
-        $songs = SongRepository::getSongByTitle($searchQuery);
+        $songs = SongRepository::getSongByTitle($searchParam);
     } elseif ($searchType === "author") {
-        $songs = SongRepository::getSongByAuthor($searchQuery);
+        $songs = SongRepository::getSongByAuthor($searchParam);
     } else {
         $songs = [];
     }

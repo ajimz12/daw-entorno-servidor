@@ -12,12 +12,34 @@
             color: #FFFFFF;
             font-family: 'Poppins', Arial, sans-serif;
         }
+
+        input[type="submit"] {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: #00A431;
+            color: #FFFFFF;
+            border-radius: 5px;
+            padding: 5px;
+            text-decoration: none;
+        }
+
+        input[type="text"] {
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        a {
+            color: #00A431;
+        }
     </style>
 </head>
 
 <body>
     <h1>Playlists de la comunidad</h1>
     <h3>Descubre las playlists de otros usuarios</h3>
+
+    <form action="index.php?c=playlist&searchPlaylists=1" method="POST">
+        <input type="text" name="playlistTitle" placeholder="Buscar playlist">
+        <input type="submit" value="Buscar">
+    </form><br>
 
 
     <?php
