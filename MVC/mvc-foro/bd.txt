@@ -33,3 +33,53 @@ ID_POST
 ID
 NAME
 DESCRIPTION
+
+
+
+--- RELACIONES
+
+USER - FORUM
+USER - THEME 
+USER - COMMENT
+FORUM - THEME
+
+
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    avatar VARCHAR(255),
+    role ENUM('normal', 'administrador') DEFAULT 'normal'
+);
+
+CREATE TABLE forums (
+    forum_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    visibility ENUM('publico', 'privado') DEFAULT 'publico',
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE themes (
+    theme_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    content TEXT NOT NULL,
+    user_id INT NOT NULL,
+    forum_id INT NOT NULL,
+    state ENUM('visible', 'oculto') DEFAULT 'visible',
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (forum_id) REFERENCES forums(forum_id)
+);
+
+CREATE TABLE comments (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    comment_text TEXT NOT NULL,
+    comment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    user_id INT NOT NULL,
+    theme_id INT NOT NULL,
+    state ENUM('visible', 'oculto') DEFAULT 'visible',
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (theme_id) REFERENCES themes(theme_id)
+);

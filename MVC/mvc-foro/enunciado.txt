@@ -1,0 +1,20 @@
+Nos piden hacer un foro. Un foro es un sistema web de comunicación donde en cada foro se crean hilos a los que los usuarios pueden comentar/responder.
+
+El usuario no identificado puede ver los foros públicos y registrarse.
+
+Para registrarse podrá añadir su imagen (avatar), además de su correo electrónico, nick y contraseña.
+
+Una vez que está registrado puede entrar en los distintos foros públicos y privados, crear temas nuevos y contestar a los existentes.
+
+Los usuarios administradores pueden:
+
+- Hacer lo mismo que cualquier usuario registrado.
+
+- Crear foros. Etiquetarlos como públicos/privados
+
+-  Banear usuarios (ponerlos inactivos)
+
+- Dar poder de admin a otros usuarios 
+
+- Moderar temas (ocultar temas completos o respuestas concretas) 
+
