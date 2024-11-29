@@ -10,7 +10,23 @@
 <body>
 
     <h1>5chan</h1>
+    <?php
 
+    $user = $_SESSION["user"];
+
+    if (!isset($user)) {
+        echo "<p>Bienvenido, puedes iniciar sesión <a href='index.php?c=login&login=1'>aquí</a></p><br>";
+    } else {
+        echo "<h3>Bienvenido, " . $user->getUsername() . "</h3>";
+        echo "<a href='index.php?c=login&logout=1'>Cerrar sesión</a><br><br>";
+    }
+
+    echo "<h2>Foros</h2>";
+    if ($user->getRole() == "admin") {
+        echo "<a href='index.php?c=forum&addForum=1'>Crear un foro</a>";
+    }
+
+    ?>
 </body>
 
 </html>

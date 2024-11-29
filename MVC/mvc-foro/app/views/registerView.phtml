@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - 5chan</title>
+</head>
+
+<body>
+
+    <h2>Registro</h2>
+    <?php if (isset($info)) echo "<p style='color:red;'>$info</p>"; ?>
+    <form action="index.php?c=register" method="POST" enctype="multipart/form-data">
+        <input type="text" name="username" placeholder="Nombre de usuario" required><br><br>
+        <input type="email" name="email" placeholder="Correo electrónico" required><br><br>
+        <input type="password" name="password" placeholder="Contraseña" required><br><br>
+        <label for="avatar">Avatar: </label>
+        <input type="file" name="avatar" accept="image/jpeg, image/png"><br><br>
+        <input type="submit" name="register" value="Registrarse">
+    </form>
+
+</body>
+
+</html>
