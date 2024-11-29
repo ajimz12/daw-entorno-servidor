@@ -23,9 +23,21 @@
 
     echo "<h2>Foros</h2>";
     if ($user->getRole() == "admin") {
-        echo "<a href='index.php?c=forum&addForum=1'>Crear un foro</a>";
-    }
+    ?>
 
+        <h3>Crear un foro</h3>
+        <form action="index.php?c=forum" method="POST" enctype="multipart/form-data">
+            <input type="text" name="forumTitle" placeholder="Titulo del foro" required><br><br>
+            <textarea name="forumDescription" placeholder="Descripcion" required></textarea><br><br>
+            <input type="checkbox" name="visible" checked="checked" value="Visible">
+            <label for="visible">Visible</label><br>
+            <label for="forumImage">Imagen: </label>
+            <input type="file" name="forumImage" accept="image/jpeg, image/png"><br><br>
+            <input type="submit" name="addForum" value="Crear foro">
+        </form>
+
+    <?php
+    }
     ?>
 </body>
 

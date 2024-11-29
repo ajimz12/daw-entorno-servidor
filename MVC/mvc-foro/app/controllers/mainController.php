@@ -14,4 +14,9 @@ if (isset($_GET['c']) && $_GET['c'] === 'register') {
     exit();
 }
 
+if (isset($_GET['c']) && $_GET['c'] === 'forum') {
+    require_once("controllers/forumController.php");
+    exit();
+}
+
 require_once("views/mainView.phtml");

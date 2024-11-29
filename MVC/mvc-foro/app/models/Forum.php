@@ -6,6 +6,7 @@ class Forum
     private $id;
     private $title;
     private $description;
+    private $image;
     private $visibility;
 
     public function __construct($data)
@@ -13,6 +14,7 @@ class Forum
         $this->id = $data['id'];
         $this->title = $data['title'];
         $this->description = $data['description'];
+        $this->image = $data['image'];
         $this->visibility = $data['visibility'];
     }
 
@@ -29,6 +31,11 @@ class Forum
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
     }
 
     public function getVisibility()
