@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $forum->getTitle() ?></title>
+</head>
+
+<body>
+
+    <h1><?php echo $forum->getTitle() ?></h1><br>
+
+    <h3>Crear un Hilo</h3>
+    <form action="index.php?c=theme&forum_id=<?php echo $forum->getId(); ?>" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="forum_id" value="<?php echo $forum->getId(); ?>">
+        <input type="text" name="themeTitle" placeholder="Titulo del hilo" required><br><br>
+        <textarea name="themeContent" placeholder="Contenido" required></textarea><br><br>
+        <label for="themeImage">Imagen: </label>
+        <input type="file" name="themeImage" accept="image/jpeg, image/png"><br><br>
+        <input type="submit" name="addTheme" value="Crear hilo">
+    </form>
+
+    <br><br>
+
+    <h3>Todos los hilos</h3>
+    <?php
+    if ($themes) {
+        foreach ($themes as $theme) {
+            echo "<h4><a href='index.php?c=theme&theme_id=" . $theme->getId() . "'>" . $theme->getTitle() . "</a></h4>";
+            echo "<p>" . $theme->getContent() . "</p>";
+            if ($theme->getImage()) {
+                echo "<p><img src='" . $theme->getImage() . "' alt='Imagen del tema' width='200' height='150'></p><br>";
+            }
+            echo "<br><br>";
+        }
+    } else {
+        echo "<p>No hay hilos creados en este foro.</p>";
+    }
+    ?>
+
+</body>
+
+</html>

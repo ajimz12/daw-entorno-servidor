@@ -2,6 +2,10 @@
 
 require_once("./models/Forum.php");
 require_once("./models/ForumRepository.php");
+require_once("./models/Theme.php");
+require_once("./models/ThemeRepository.php");
+
+$themes = ThemeRepository::getAllThemes();
 
 if (isset($_POST['addForum'])) {
     $forumTitle = $_POST['forumTitle'];
@@ -10,24 +14,32 @@ if (isset($_POST['addForum'])) {
 
     $forumImage = "";
     if (isset($_FILES['forumImage']['name']) && $_FILES['forumImage']['name'] != '') {
-        $forumImage = "./public/forum-img/" . $_FILES['forumImage']['name'];
-        if (!move_uploaded_file($_FILES['forumImage']['tmp_name'], $forumImage)) {
+        $uploadDir = "./public/forum-img/";
+        $uploadedFile = $uploadDir . basename($_FILES['forumImage']['name']);
+        if (move_uploaded_file($_FILES['forumImage']['tmp_name'], $uploadedFile)) {
+            $forumImage = $uploadedFile;
+        } else {
             echo "Error al mover el archivo";
-            $forumImage = "./public/forum-img/default-image.jpg"; 
+            $forumImage = "";
         }
-    } else {
-        $forumImage = "./public/forum-img/default-image.jpg";
     }
+
 
 
     $data = [
         'title' => $forumTitle,
         'description' => $forumDescription,
-        'image' => $forumImage,
+        'forum_image' => $forumImage,
         'visibility' => $visibility,
         'user_id' => $_SESSION['user']->getId()
     ];
 
     $forum = new Forum($data);
     ForumRepository::addForum($forum);
+}
+
+if (isset($_GET['showForum'])) {
+    $forum = ForumRepository::getForumById($_GET['forum_id']);
+    require_once("views/forumView.phtml");
+    exit();
 }

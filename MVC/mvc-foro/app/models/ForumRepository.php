@@ -5,9 +5,7 @@ class ForumRepository
     public static function getAllForums()
     {
         $db = Connect::connection();
-        $query = "SELECT f.*, u.user_id, u.username, u.email, u.avatar, u.role, u.active
-              FROM forums f
-              JOIN users u ON f.user_id = u.user_id";
+        $query = "SELECT * FROM forums f JOIN users u ON f.user_id = u.user_id";
         $result = $db->query($query);
         $forums = [];
         while ($row = $result->fetch_assoc()) {
@@ -21,14 +19,11 @@ class ForumRepository
     public static function getForumById($forumId)
     {
         $db = Connect::connection();
-        $query = "SELECT * FROM forums WHERE id = $forumId";
-        $result = $db->query($query);
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $forum = new Forum($row);
-            return $forum;
-        }
+        $result = $db->query("SELECT * FROM forums WHERE forum_id = " . $forumId);
 
+        if ($row = $result->fetch_assoc()) {
+            return new Forum($row);
+        }
         return null;
     }
 
@@ -36,7 +31,7 @@ class ForumRepository
     {
         $db = Connect::connection();
         $userId = $_SESSION['user']->getId();
-        $query = "INSERT INTO forums (title, description, image, visibility, user_id) VALUES (
+        $query = "INSERT INTO forums (title, description, forum_image, visibility, user_id) VALUES (
             '" . $forum->getTitle() . "',
             '" . $forum->getDescription() . "',
             '" . $forum->getImage() . "',

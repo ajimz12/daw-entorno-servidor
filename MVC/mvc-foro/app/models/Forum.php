@@ -16,7 +16,7 @@ class Forum
         $this->id = $data['forum_id'];
         $this->title = $data['title'];
         $this->description = $data['description'];
-        $this->image = $data['image'];
+        $this->image = $data['forum_image'];
         $this->visibility = $data['visibility'];
         $this->user = UserRepository::getUserById($data['user_id']);
 

@@ -23,4 +23,9 @@ if (isset($_GET['c']) && $_GET['c'] === 'forum') {
     exit();
 }
 
+if (isset($_GET['c']) && $_GET['c'] === 'theme') {
+    require_once("controllers/themeController.php");
+    exit();
+}
+
 require_once("views/mainView.phtml");
