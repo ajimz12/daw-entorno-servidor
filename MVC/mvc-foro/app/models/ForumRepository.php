@@ -5,7 +5,9 @@ class ForumRepository
     public static function getAllForums()
     {
         $db = Connect::connection();
-        $query = "SELECT * FROM forums";
+        $query = "SELECT f.*, u.user_id, u.username, u.email, u.avatar, u.role, u.active
+              FROM forums f
+              JOIN users u ON f.user_id = u.user_id";
         $result = $db->query($query);
         $forums = [];
         while ($row = $result->fetch_assoc()) {
@@ -14,6 +16,7 @@ class ForumRepository
         }
         return $forums;
     }
+
 
     public static function getForumById($forumId)
     {

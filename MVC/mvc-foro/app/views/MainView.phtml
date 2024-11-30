@@ -34,11 +34,21 @@
             <label for="forumImage">Imagen: </label>
             <input type="file" name="forumImage" accept="image/jpeg, image/png"><br><br>
             <input type="submit" name="addForum" value="Crear foro">
-        </form>
+        </form><br>
 
     <?php
     }
+
+    foreach ($forums as $forum) {
+        echo "<h3><a href='index.php?c=forum&id=" . $forum->getId() . "'>" . $forum->getTitle() . "</a></h3>";
+        echo "<p>" . $forum->getDescription() . "</p>";
+        echo "<p>Creado por: " . $forum->getUser()->getUsername() . "</p>";
+        echo "<p><img src='" . $forum->getImage() . "' alt='Imagen del foro' width='200' height='150'></p><br>";
+    }
     ?>
+
+
+
 </body>
 
 </html>

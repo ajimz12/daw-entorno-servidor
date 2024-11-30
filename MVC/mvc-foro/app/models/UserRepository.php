@@ -13,11 +13,11 @@ class UserRepository
         }
     }
 
-    public static function register($username, $email, $password, $avatar,  $role)
+    public static function register($username, $email, $password, $avatar, $role, $active)
     {
         $db = Connect::connection();
 
-        $query = "INSERT INTO users (username, email, password, avatar, role) VALUES ('" . $username . "', '" . $email . "', '" . $password . "', '" . $avatar . "', '" . $role . "')";
+        $query = "INSERT INTO users (username, email, password, avatar, role) VALUES ('" . $username . "', '" . $email . "', '" . $password . "', '" . $avatar . "', '" . $role . "', '" . $active . "')";
 
         if ($db->query($query)) {
             $userId = $db->insert_id;
@@ -28,6 +28,16 @@ class UserRepository
                 'avatar' => $avatar,
                 'role' => $role
             ]);
+        }
+        return null;
+    }
+
+    public static function getUserById($userId)
+    {
+        $query = "SELECT * FROM users WHERE user_id = " . $userId;
+        $result = Connect::connection()->query($query);
+        if ($row = $result->fetch_assoc()) {
+            return new User($row);
         }
         return null;
     }

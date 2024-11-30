@@ -10,11 +10,15 @@ if (isset($_POST['addForum'])) {
 
     $forumImage = "";
     if (isset($_FILES['forumImage']['name']) && $_FILES['forumImage']['name'] != '') {
-        $forumImage = $_FILES['forumImage']['name'];
-        move_uploaded_file($_FILES['forumImage']['tmp_name'], "./public/forum-img/" . $forumImage);
+        $forumImage = "./public/forum-img/" . $_FILES['forumImage']['name'];
+        if (!move_uploaded_file($_FILES['forumImage']['tmp_name'], $forumImage)) {
+            echo "Error al mover el archivo";
+            $forumImage = "./public/forum-img/default-image.jpg"; 
+        }
     } else {
         $forumImage = "./public/forum-img/default-image.jpg";
     }
+
 
     $data = [
         'title' => $forumTitle,

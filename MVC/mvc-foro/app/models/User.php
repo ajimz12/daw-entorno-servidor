@@ -8,6 +8,8 @@ class User
     private $avatar;
     private $role;
 
+    private $active;
+
     function __construct($data)
     {
         $this->id = $data['user_id'];
@@ -15,6 +17,7 @@ class User
         $this->email = $data['email'];
         $this->avatar = $data['avatar'];
         $this->role = $data['role'];
+        $this->active = $data['active'];
     }
 
     public function getId()
@@ -40,5 +43,10 @@ class User
     public function getRole()
     {
         return $this->role;
+    }
+
+    public function isActive()
+    {
+        return $this->active;
     }
 }

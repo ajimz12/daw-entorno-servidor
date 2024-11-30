@@ -1,4 +1,5 @@
 <?php
+require_once("./models/UserRepository.php");
 
 class Forum
 {
@@ -8,14 +9,17 @@ class Forum
     private $description;
     private $image;
     private $visibility;
+    private $user;
 
     public function __construct($data)
     {
-        $this->id = $data['id'];
+        $this->id = $data['forum_id'];
         $this->title = $data['title'];
         $this->description = $data['description'];
         $this->image = $data['image'];
         $this->visibility = $data['visibility'];
+        $this->user = UserRepository::getUserById($data['user_id']);
+
     }
 
     public function getId()
@@ -41,5 +45,9 @@ class Forum
     public function getVisibility()
     {
         return $this->visibility;
+    }
+    public function getUser()
+    {
+        return $this->user;
     }
 }
