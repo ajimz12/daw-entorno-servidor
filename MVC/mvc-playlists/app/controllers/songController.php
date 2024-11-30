@@ -4,8 +4,10 @@ require_once("models/Song.php");
 require_once("models/SongRepository.php");
 require_once("models/PlaylistRepository.php");
 
-
-$userSongs = SongRepository::getSongByUser($_SESSION["user"]);
+if (isset($_SESSION['user'])) {
+    $userSongs = SongRepository::getSongByUser($_SESSION["user"]);
+    $playlists = PlaylistRepository::getAllPlaylistsByUser($_SESSION['user']);
+}
 
 if (isset($_POST['searchSong']) && isset($_POST['searchType'])) {
     $searchParam = trim($_POST['searchSong']);
