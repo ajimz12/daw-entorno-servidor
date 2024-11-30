@@ -87,4 +87,6 @@ CREATE TABLE comments (
 /////
 
 ALTER TABLE `forums` ADD `image` VARCHAR(255) NOT NULL AFTER `description`; 
+ALTER TABLE `users` ADD `active` BOOLEAN NOT NULL DEFAULT TRUE AFTER `role`; 
+ALTER TABLE `forums` CHANGE `visibility` `visibility` BOOLEAN NOT NULL DEFAULT TRUE; 
 CAMBIAR ENUM 'ADMINISTRADOR' A 'ADMIN'

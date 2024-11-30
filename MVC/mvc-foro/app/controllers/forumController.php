@@ -3,10 +3,10 @@
 require_once("./models/Forum.php");
 require_once("./models/ForumRepository.php");
 
-if (isset($_POST['forum'])) {
+if (isset($_POST['addForum'])) {
     $forumTitle = $_POST['forumTitle'];
     $forumDescription = $_POST['forumDescription'];
-    $visibility = $_POST['visibility'];
+    $visibility = isset($_POST['visible']) ? 1 : 0;
 
     $forumImage = "";
     if (isset($_FILES['forumImage']['name']) && $_FILES['forumImage']['name'] != '') {
