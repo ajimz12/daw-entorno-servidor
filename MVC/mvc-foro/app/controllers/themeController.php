@@ -42,6 +42,18 @@ if (isset($_GET['showTheme'])) {
     exit();
 }
 
+if (isset($_GET['hideTheme'])) {
+    ThemeRepository::updateThemeVisibility($_GET['theme_id'], $_GET['hiddenTheme']);
+    header('Location: index.php?c=theme&showTheme=1&theme_id=' . $_GET['theme_id']);
+    exit();
+}
+
+if (isset($_GET['hideComment'])) {
+    CommentRepository::updateCommentVisibility($_GET['comment_id'], $_GET['hiddenComment']);
+    header('Location: index.php?c=theme&showTheme=1&theme_id=' . $_GET['theme_id']);
+    exit();
+}
+
 if (isset($_POST['addComment'])) {
     $commentContent = $_POST['commentText'];
     $commentDate = date("Y-m-d H:i:s");

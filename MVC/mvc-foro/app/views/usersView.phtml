@@ -15,9 +15,19 @@
     foreach ($users as $user) {
 
         echo "<img src='" . $user->getAvatar() . "' alt='" . $user->getUsername() . "' width='50' height='50'></img>";
-        echo "<p>" . $user->getUsername() . " - " . $user->getEmail() . "</p>";
+        echo "<p>" . $user->getUsername() . "</p>";
+
+        if (isset($_SESSION['user'])) {
+            echo "<p>Email: " . $user->getEmail() . "</p>";
+        }
+
         if (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() === "admin") {
-            echo "<p><a href='index.php?c=user&banUser=1&user_id=" . $user->getId() . "'>Banear</a></p>";
+            if ($user->isActive()) {
+                echo "<p><a href='index.php?c=user&banned=0&banUser=1&user_id=" . $user->getId() . "'>Banear</a></p>";
+            } else {
+                echo "<p><a href='index.php?c=user&banned=1&banUser=1&user_id=" . $user->getId() . "'>Desbanear</a></p>";
+            }
+            echo "<p><a href='index.php?c=user&setAdmin=1&user_id=" . $user->getId() . "'>Dar Rol de Administrador</a></p>";
         }
     }
     ?>

@@ -17,7 +17,18 @@
     if ($theme->getImage()) {
         echo "<p><img src='" . $theme->getImage() . "' alt='Imagen del tema' width='200' height='150'></p>";
     }
+
     echo "<p>" . $theme->getContent() . "</p>";
+
+    if (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin") {
+
+        if (!$theme->isHidden()) {
+            echo "<p><a href='index.php?c=theme&hiddenTheme=1&hideTheme=1&theme_id=" . $theme->getId() . "'>Ocultar Hilo</a></p>";
+        } else {
+            echo "<p><a href='index.php?c=theme&hiddenTheme=0&hideTheme=1&theme_id=" . $theme->getId() . "'>Mostrar Hilo</a></p>";
+        }
+    }
+
     echo "<hr>";
 
     if (isset($_SESSION['user']) && $_SESSION['user']->isActive()) {
@@ -39,11 +50,20 @@
     }
 
     foreach ($comments as $comment) {
-        echo "<hr>";
-        echo "<img src='" . $comment->getUser()->getAvatar() . "' alt='" . $comment->getUser()->getUsername() . "' width='50' height='50'></img>";
-        echo "<h4>" . $comment->getUser()->getUsername() . "</h4>";
-        echo "<p>" . $comment->getText() . "</p>";
-        echo "<p>" . $comment->getDate() . "</p>";
+        if (!$comment->isHidden() || isset($SESSION_['user']) && $_SESSION["user"]->getRole() == 'admin') {
+            echo "<hr>";
+            echo "<img src='" . $comment->getUser()->getAvatar() . "' alt='" . $comment->getUser()->getUsername() . "' width='50' height='50'></img>";
+            echo "<h4>" . $comment->getUser()->getUsername() . "</h4>";
+            echo "<p>" . $comment->getText() . "</p>";
+            echo "<p>" . $comment->getDate() . "</p>";
+            if (isset($_SESSION['user']) && $_SESSION['user']->getRole() == 'admin') {
+                if (!$comment->isHidden()) {
+                    echo "<p><a href='index.php?c=theme&hiddenComment=1&hideComment=1&comment_id=" . $comment->getId() . "&theme_id=" . $comment->getTheme()->getId() . "'>Ocultar Comentario</a></p>";
+                } else {
+                    echo "<p><a href='index.php?c=theme&hiddenComment=0&hideComment=1&comment_id=" . $comment->getId() . "&theme_id=" . $comment->getTheme()->getId() . "'>Mostrar Comentario</a></p>";
+                }
+            }
+        }
     }
 
     ?>

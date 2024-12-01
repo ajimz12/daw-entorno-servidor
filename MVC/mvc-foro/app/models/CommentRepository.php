@@ -16,4 +16,11 @@ class CommentRepository
         $connection->query($query);
         header("Location: index.php?c=theme&showTheme=1&theme_id=" . $comment->getTheme()->getId());
     }
+
+    public static function updateCommentVisibility($commentId, $hidden)
+    {
+        $db = Connect::connection();
+        $query = "UPDATE comments SET hidden = " . ($hidden ? 1 : 0) . " WHERE comment_id = " . $commentId;
+        $db->query($query);
+    }
 }

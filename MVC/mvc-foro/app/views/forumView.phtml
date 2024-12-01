@@ -32,19 +32,24 @@
     }
     ?>
 
-    <br><hr>
+    <br>
+    <hr>
 
     <h3>Todos los hilos</h3>
     <hr>
     <?php
     if ($themes) {
         foreach ($themes as $theme) {
-            echo "<h4><a href='index.php?c=theme&showTheme=1&theme_id=" . $theme->getId() . "'>" . $theme->getThemeTitle() . "</a></h4>";
-            echo "<p>" . $theme->getContent() . "</p><br>";
-            if ($theme->getImage()) {
-                echo "<p><img src='" . $theme->getImage() . "' alt='Imagen del tema' width='200' height='150'></p><br>";
+            if (!$theme->isHidden() || $_SESSION['user']->getRole() == "admin") {
+                echo "<h4><a href='index.php?c=theme&showTheme=1&theme_id=" . $theme->getId() . "'>" . $theme->getThemeTitle() . "</a></h4>";
+                echo "<p>" . $theme->getContent() . "</p><br>";
+                if ($theme->getImage()) {
+                    echo "<p><img src='" . $theme->getImage() . "' alt='Imagen del tema' width='200' height='150'></p><br>";
+                }
+                echo "<hr><br>";
+            } else {
+                echo "<p>Este hilo está oculto</p><hr>";
             }
-            echo "<hr><br>";
         }
     } else {
         echo "<p>No hay hilos creados en este foro.</p>";

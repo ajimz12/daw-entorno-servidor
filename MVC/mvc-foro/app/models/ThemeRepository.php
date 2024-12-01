@@ -43,6 +43,7 @@ class ThemeRepository
         }
         return $comments;
     }
+
     public static function addTheme($theme)
     {
         $db = Connect::connection();
@@ -62,5 +63,12 @@ class ThemeRepository
         }
 
         return null;
+    }
+
+    public static function updateThemeVisibility($themeId, $hidden)
+    {
+        $db = Connect::connection();
+        $query = "UPDATE themes SET hidden = " . ($hidden ? 1 : 0) . " WHERE theme_id = " . $themeId;
+        $db->query($query);
     }
 }

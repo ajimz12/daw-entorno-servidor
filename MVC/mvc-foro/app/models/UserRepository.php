@@ -54,9 +54,16 @@ class UserRepository
         return null;
     }
 
-    public static function banUser($userId)
+    public static function updateUserActivity($userId, $active)
     {
-        $query = "UPDATE users SET active = 0 WHERE user_id = " . $userId;
+        $db = Connect::connection();
+        $query = "UPDATE users SET active = " . ($active ? 1 : 0) . " WHERE user_id = " . $userId;
+        $db->query($query);
+    }
+
+    public static function updateUserToAdmin($userId)
+    {
+        $query = "UPDATE users SET role = 'admin' WHERE user_id = " . $userId;
         Connect::connection()->query($query);
     }
 }

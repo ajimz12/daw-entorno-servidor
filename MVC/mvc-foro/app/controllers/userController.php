@@ -47,11 +47,17 @@ if (isset($_POST['register'])) {
 
 if (isset($_GET['banUser'])) {
     $userId = $_GET['user_id'];
-    UserRepository::banUser($userId);
+    UserRepository::updateUserActivity($userId, $_GET['banned']);
     header("Location: index.php?c=user&showUsers=1");
     exit();
 }
 
+if (isset($_GET['setAdmin'])) {
+    $userId = $_GET['user_id'];
+    UserRepository::updateUserToAdmin($userId);
+    header("Location: index.php?c=user&showUsers=1");
+    exit();
+}
 
 if (isset($_GET['logout'])) {
     session_destroy();
