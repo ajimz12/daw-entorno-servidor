@@ -53,4 +53,10 @@ class UserRepository
         }
         return null;
     }
+
+    public static function banUser($userId)
+    {
+        $query = "UPDATE users SET active = 0 WHERE user_id = " . $userId;
+        Connect::connection()->query($query);
+    }
 }

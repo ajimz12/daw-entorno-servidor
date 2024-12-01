@@ -17,7 +17,7 @@
         echo "<img src='" . $user->getAvatar() . "' alt='" . $user->getUsername() . "' width='50' height='50'></img>";
         echo "<p>" . $user->getUsername() . " - " . $user->getEmail() . "</p>";
         if (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() === "admin") {
-            echo "<a href='index.php?c=user&banUser=1&user_id=" . $user->getId() . "'>Banear</a>";
+            echo "<p><a href='index.php?c=user&banUser=1&user_id=" . $user->getId() . "'>Banear</a></p>";
         }
     }
     ?>

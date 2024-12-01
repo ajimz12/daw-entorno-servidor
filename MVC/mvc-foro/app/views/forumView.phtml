@@ -14,7 +14,7 @@
     echo "<h3>" . $forum->getDescription() . "</h3>";
     echo "<hr><br>";
 
-    if (isset($_SESSION['user'])) {
+    if (isset($_SESSION['user']) && $_SESSION['user']->isActive()) {
     ?>
 
         <h3>Crear un Hilo</h3>

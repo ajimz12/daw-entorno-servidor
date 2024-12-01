@@ -20,7 +20,7 @@
     echo "<p>" . $theme->getContent() . "</p>";
     echo "<hr>";
 
-    if (isset($_SESSION['user'])) {
+    if (isset($_SESSION['user']) && $_SESSION['user']->isActive()) {
 
     ?>
 

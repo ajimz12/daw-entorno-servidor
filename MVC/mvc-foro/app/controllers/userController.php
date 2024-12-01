@@ -45,6 +45,14 @@ if (isset($_POST['register'])) {
     }
 }
 
+if (isset($_GET['banUser'])) {
+    $userId = $_GET['user_id'];
+    UserRepository::banUser($userId);
+    header("Location: index.php?c=user&showUsers=1");
+    exit();
+}
+
+
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: index.php?c=login');

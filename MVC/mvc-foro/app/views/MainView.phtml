@@ -14,6 +14,9 @@
 
     if (!isset($_SESSION["user"])) {
         echo "<p>Bienvenido, puedes iniciar sesión <a href='index.php?c=login&login=1'>aquí</a></p><br>";
+    } else if (!$_SESSION["user"]->isActive()) {
+        echo "<p>Bienvenido, puedes iniciar sesión <a href='index.php?c=login&login=1'>aquí</a></p><br>";
+        echo "<p>Lo sentimos, tu cuenta ha sido suspendida</p><br>";
     } else {
         echo "<h3>Bienvenido, " . $_SESSION["user"]->getUsername() . "</h3>";
         echo "<a href='index.php?c=login&logout=1'>Cerrar sesión</a><br><br>";
