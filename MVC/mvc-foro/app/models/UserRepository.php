@@ -33,6 +33,17 @@ class UserRepository
         return null;
     }
 
+    public static function getAllUsers()
+    {
+        $query = "SELECT * FROM users";
+        $result = Connect::connection()->query($query);
+        $users = [];
+        while ($row = $result->fetch_assoc()) {
+            $users[] = new User($row);
+        }
+        return $users;
+    }
+
     public static function getUserById($userId)
     {
         $query = "SELECT * FROM users WHERE user_id = " . $userId;

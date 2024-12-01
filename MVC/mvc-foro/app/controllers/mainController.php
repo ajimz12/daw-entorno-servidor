@@ -18,6 +18,11 @@ if (isset($_GET['c']) && $_GET['c'] === 'register') {
     exit();
 }
 
+if (isset($_GET['c']) && $_GET['c'] === 'user') {
+    require_once("controllers/userController.php");
+    exit();
+}
+
 if (isset($_GET['c']) && $_GET['c'] === 'forum') {
     require_once("controllers/forumController.php");
     exit();

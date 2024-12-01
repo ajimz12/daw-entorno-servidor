@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos los usuarios</title>
+</head>
+
+<body>
+    <h1>Todos los usuarios</h1>
+    <hr>
+
+    <?php
+    foreach ($users as $user) {
+
+        echo "<img src='" . $user->getAvatar() . "' alt='" . $user->getUsername() . "' width='50' height='50'></img>";
+        echo "<p>" . $user->getUsername() . " - " . $user->getEmail() . "</p>";
+        if (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() === "admin") {
+            echo "<a href='index.php?c=user&banUser=1&user_id=" . $user->getId() . "'>Banear</a>";
+        }
+    }
+    ?>
+</body>
+
+</html>

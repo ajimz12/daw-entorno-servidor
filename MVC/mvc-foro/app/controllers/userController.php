@@ -45,7 +45,6 @@ if (isset($_POST['register'])) {
     }
 }
 
-
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: index.php?c=login');
@@ -54,6 +53,10 @@ if (isset($_GET['logout'])) {
 
 if (isset($_GET['register'])) {
     require_once("views/registerView.phtml");
+} else if (isset($_GET['showUsers'])) {
+    $users = UserRepository::getAllUsers();
+    require_once("views/usersView.phtml");
+    exit();
 } else {
     require_once("views/loginView.phtml");
 }
