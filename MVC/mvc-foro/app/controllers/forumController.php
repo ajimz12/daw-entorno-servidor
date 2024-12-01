@@ -5,8 +5,6 @@ require_once("./models/ForumRepository.php");
 require_once("./models/Theme.php");
 require_once("./models/ThemeRepository.php");
 
-$themes = ThemeRepository::getAllThemes();
-
 if (isset($_POST['addForum'])) {
     $forumTitle = $_POST['forumTitle'];
     $forumDescription = $_POST['forumDescription'];
@@ -40,6 +38,7 @@ if (isset($_POST['addForum'])) {
 
 if (isset($_GET['showForum'])) {
     $forum = ForumRepository::getForumById($_GET['forum_id']);
+    $themes = ForumRepository::getThemesByForum($forum);
     require_once("views/forumView.phtml");
     exit();
 }

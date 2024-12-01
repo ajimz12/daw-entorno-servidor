@@ -1,5 +1,8 @@
 <?php
 
+require_once("./models/Theme.php");
+require_once("./models/ThemeRepository.php");
+
 class ThemeRepository
 {
 
@@ -40,7 +43,6 @@ class ThemeRepository
         }
         return $comments;
     }
-
     public static function addTheme($theme)
     {
         $db = Connect::connection();

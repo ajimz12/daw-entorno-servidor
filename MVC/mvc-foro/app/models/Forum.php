@@ -1,5 +1,6 @@
 <?php
 require_once("./models/UserRepository.php");
+require_once("./models/ThemeRepository.php");
 
 class Forum
 {
@@ -10,6 +11,7 @@ class Forum
     private $image;
     private $visibility;
     private $user;
+    private $themes;
 
     public function __construct($data)
     {
@@ -19,7 +21,6 @@ class Forum
         $this->image = $data['forum_image'];
         $this->visibility = $data['visibility'];
         $this->user = UserRepository::getUserById($data['user_id']);
-
     }
 
     public function getId()
@@ -42,12 +43,20 @@ class Forum
         return $this->image;
     }
 
-    public function getVisibility()
+    public function isVisible()
     {
         return $this->visibility;
     }
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function getThemes()
+    {
+        if (!$this->themes) {
+            $this->themes = ForumRepository::getThemesByForum($this);
+        }
+        return $this->themes;
     }
 }

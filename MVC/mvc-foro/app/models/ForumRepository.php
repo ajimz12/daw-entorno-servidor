@@ -27,6 +27,21 @@ class ForumRepository
         return null;
     }
 
+    
+    public static function getThemesByForum($forum)
+    {
+        $db = Connect::connection();
+        $query = "SELECT * FROM themes WHERE forum_id = " . $forum->getId();
+        $result = $db->query($query);
+        $themes = [];
+        while ($row = $result->fetch_assoc()) {
+            $theme = new Theme($row);
+            $themes[] = $theme;
+        }
+        return $themes;
+    }
+
+
     public static function addForum($forum)
     {
         $db = Connect::connection();
@@ -35,7 +50,7 @@ class ForumRepository
             '" . $forum->getTitle() . "',
             '" . $forum->getDescription() . "',
             '" . $forum->getImage() . "',
-            '" . $forum->getVisibility() . "',
+            '" . $forum->isVisible() . "',
             '" . $userId . "'
         )";
 
