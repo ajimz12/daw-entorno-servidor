@@ -1,37 +1,6 @@
---- USER ---
-
-id
-username
-password
-role
-
---- PLAYLIST ---
-
-id
-playlist_title
-id_user
-
---- SONG ---
-
-id
-song_title
-author_name
-duration
-id_playlist
-
----
-
-
-<-- RELACIONES --> 
-
-PLAYLIST -- SONG | Relacion muchos a muchos
-USER -- PLAYLIST | Relacion 1 a muchos
-
-
 
 ------------------------------------------------------ SQL 
 
--- Tabla Usuarios
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -39,7 +8,6 @@ CREATE TABLE users (
     role ENUM('normal', 'admin') NOT NULL
 );
 
--- Tabla Listas de Reproducción
 CREATE TABLE playlists (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
@@ -48,7 +16,6 @@ CREATE TABLE playlists (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Tabla Canciones
 CREATE TABLE songs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
@@ -59,8 +26,7 @@ CREATE TABLE songs (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- Tabla intermedia Lista-Canción (N:M)
-CREATE TABLE song_playlist (
+CREATE TABLE playlists_songs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     playlist_id INT NOT NULL,
     song_id INT NOT NULL,
@@ -68,7 +34,6 @@ CREATE TABLE song_playlist (
     FOREIGN KEY (song_id) REFERENCES songs(id)
 );
 
--- Tabla Favoritas (relación entre Usuarios y Listas)
 CREATE TABLE favorites (
     id_favorite INT AUTO_INCREMENT,
     id_user INT NOT NULL,
