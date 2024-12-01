@@ -1,7 +1,9 @@
 <?php
 
 require_once("./models/Theme.php");
+require_once("./models/Comment.php");
 require_once("./models/ThemeRepository.php");
+require_once("./models/CommentRepository.php");
 
 if (isset($_POST['addTheme'])) {
     $themeTitle = $_POST['themeTitle'];
@@ -12,16 +14,16 @@ if (isset($_POST['addTheme'])) {
         $uploadDir = "./public/theme-img/";
         $uploadedFile = $uploadDir . basename($_FILES['themeImage']['name']);
         if (move_uploaded_file($_FILES['themeImage']['tmp_name'], $uploadedFile)) {
-            $themeImage = $uploadedFile; 
+            $themeImage = $uploadedFile;
         } else {
             echo "Error al mover el archivo";
-            $themeImage = ""; 
+            $themeImage = "";
         }
     }
 
 
     $data = [
-        'title' => $themeTitle,
+        'theme_title' => $themeTitle,
         'content' => $themeContent,
         'theme_image' => $themeImage,
         'user_id' => $_SESSION['user']->getId(),
@@ -31,4 +33,27 @@ if (isset($_POST['addTheme'])) {
 
     $theme = new Theme($data);
     ThemeRepository::addTheme($theme);
+}
+
+if (isset($_GET['showTheme'])) {
+    $theme = ThemeRepository::getThemeById($_GET['theme_id']);
+    $comments = ThemeRepository::getCommentsByTheme($theme);
+    require_once("views/themeView.phtml");
+    exit();
+}
+
+if (isset($_POST['addComment'])) {
+    $commentContent = $_POST['commentText'];
+    $commentDate = date("Y-m-d H:i:s");
+
+    $data = [
+        'comment_text' => $commentContent,
+        'comment_date' => $commentDate,
+        'user_id' => $_SESSION['user']->getId(),
+        'theme_id' => $_POST['theme_id'],
+        'hidden' => 0,
+    ];
+
+    $comment = new Comment($data);
+    CommentRepository::addComment($comment);
 }

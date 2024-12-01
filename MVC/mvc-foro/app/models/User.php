@@ -7,7 +7,6 @@ class User
     private $email;
     private $avatar;
     private $role;
-
     private $active;
 
     function __construct($data)

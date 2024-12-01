@@ -28,8 +28,8 @@ if (isset($_POST['register'])) {
 
     $avatar = "";
     if (isset($_FILES['avatar']['name']) && $_FILES['avatar']['name'] != '') {
-        $avatar = $_FILES['avatar']['name'];
-        move_uploaded_file($_FILES['avatar']['tmp_name'], "./public/avatar/" . $avatar);
+        $avatar = "./public/avatar/" . $_FILES['avatar']['name'];
+        move_uploaded_file($_FILES['avatar']['tmp_name'], $avatar);
     } else {
         $avatar = "./public/avatar/default-avatar.png";
     }

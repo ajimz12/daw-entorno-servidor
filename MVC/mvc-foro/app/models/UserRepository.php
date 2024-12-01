@@ -17,7 +17,7 @@ class UserRepository
     {
         $db = Connect::connection();
 
-        $query = "INSERT INTO users (username, email, password, avatar, role) VALUES ('" . $username . "', '" . $email . "', '" . $password . "', '" . $avatar . "', '" . $role . "', '" . $active . "')";
+        $query = "INSERT INTO users (username, email, password, avatar, role, active) VALUES ('" . $username . "', '" . $email . "', '" . $password . "', '" . $avatar . "', '" . $role . "', '" . $active . "')";
 
         if ($db->query($query)) {
             $userId = $db->insert_id;
@@ -26,7 +26,8 @@ class UserRepository
                 'username' => $username,
                 'email' => $email,
                 'avatar' => $avatar,
-                'role' => $role
+                'role' => $role,
+                'active' => 1
             ]);
         }
         return null;

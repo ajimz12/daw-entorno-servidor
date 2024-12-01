@@ -94,4 +94,6 @@ ALTER TABLE `themes` CHANGE `state` `hidden` BOOLEAN NOT NULL DEFAULT FALSE;
 ALTER TABLE `themes` CHANGE `image` `image` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL; 
 ALTER TABLE `forums` CHANGE `image` `forum_image` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL; 
 ALTER TABLE `themes` CHANGE `image` `theme_image` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL; 
+ALTER TABLE `themes` CHANGE `title` `theme_title` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+ALTER TABLE `comments` CHANGE `state` `hidden` BOOLEAN NOT NULL DEFAULT FALSE;
 CAMBIAR ENUM 'ADMINISTRADOR' A 'ADMIN'

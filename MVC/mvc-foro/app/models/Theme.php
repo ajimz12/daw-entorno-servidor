@@ -15,7 +15,7 @@ class Theme
     public function __construct($data)
     {
         $this->id = $data['theme_id'];
-        $this->title = $data['title'];
+        $this->title = $data['theme_title'];
         $this->content = $data['content'];
         $this->image = $data['theme_image'];
         $this->hidden = $data['hidden'];
@@ -28,7 +28,7 @@ class Theme
         return $this->id;
     }
 
-    public function getTitle()
+    public function getThemeTitle()
     {
         return $this->title;
     }

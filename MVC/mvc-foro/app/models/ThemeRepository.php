@@ -28,11 +28,24 @@ class ThemeRepository
         return null;
     }
 
+    public static function getCommentsByTheme($theme)
+    {
+        $db = Connect::connection();
+        $query = "SELECT * FROM comments WHERE theme_id = " . $theme->getId();
+        $result = $db->query($query);
+        $comments = [];
+        while ($row = $result->fetch_assoc()) {
+            $comment = new Comment($row);
+            $comments[] = $comment;
+        }
+        return $comments;
+    }
+
     public static function addTheme($theme)
     {
         $db = Connect::connection();
-        $query = "INSERT INTO themes (title, content, theme_image, user_id, forum_id, hidden) VALUES (
-            '" . $theme->getTitle() . "',
+        $query = "INSERT INTO themes (theme_title, content, theme_image, user_id, forum_id, hidden) VALUES (
+            '" . $theme->getThemeTitle() . "',
             '" . $theme->getContent() . "',
             '" . $theme->getImage() . "',
             '" . $theme->getUser()->getId() . "',

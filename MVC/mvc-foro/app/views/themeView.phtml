@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $theme->getThemeTitle() ?></title>
+</head>
+
+<body>
+
+    <?php
+
+    echo "<h1>" . $theme->getThemeTitle() . "</h1>";
+    echo "<h3>Creado por: " . $theme->getUser()->getUsername() . "</h3>";
+    echo "<img src='" . $theme->getUser()->getAvatar() . "' alt='" . $theme->getUser()->getUsername() . "' width='50' height='50'></img>";
+    if ($theme->getImage()) {
+        echo "<p><img src='" . $theme->getImage() . "' alt='Imagen del tema' width='200' height='150'></p>";
+    }
+    echo "<p>" . $theme->getContent() . "</p>";
+    echo "<hr>";
+
+    if (isset($_SESSION['user'])) {
+
+    ?>
+
+        <h4>Añade un comentario</h4>
+        <form action="index.php?c=theme&theme_id=<?php echo $theme->getId(); ?>" method="POST">
+            <input type="hidden" name="theme_id" value="<?php echo $theme->getId(); ?>">
+            <textarea name="commentText" placeholder="Comentario..." required></textarea><br><br>
+            <input type="submit" name="addComment" value="Subir Comentario">
+        </form><br>
+
+
+    <?php
+
+    } else {
+        echo "<p>Para comentar debes <a href='index.php?c=login&login=1'>iniciar sesión.</a></p>";
+    }
+
+    foreach ($comments as $comment) {
+        echo "<hr>";
+        echo "<img src='" . $comment->getUser()->getAvatar() . "' alt='" . $comment->getUser()->getUsername() . "' width='50' height='50'></img>";
+        echo "<h4>" . $comment->getUser()->getUsername() . "</h4>";
+        echo "<p>" . $comment->getText() . "</p>";
+        echo "<p>" . $comment->getDate() . "</p>";
+    }
+
+    ?>
+
+</body>
+
+</html>

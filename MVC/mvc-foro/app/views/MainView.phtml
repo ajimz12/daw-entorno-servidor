@@ -12,17 +12,16 @@
     <h1>5chan</h1>
     <?php
 
-    $user = $_SESSION["user"];
-
-    if (!isset($user)) {
+    if (!isset($_SESSION["user"])) {
         echo "<p>Bienvenido, puedes iniciar sesión <a href='index.php?c=login&login=1'>aquí</a></p><br>";
     } else {
-        echo "<h3>Bienvenido, " . $user->getUsername() . "</h3>";
+        echo "<h3>Bienvenido, " . $_SESSION["user"]->getUsername() . "</h3>";
         echo "<a href='index.php?c=login&logout=1'>Cerrar sesión</a><br><br>";
     }
 
     echo "<h2>Foros</h2>";
-    if ($user->getRole() == "admin") {
+    echo "<hr>";
+    if (isset($_SESSION['user']) && $_SESSION["user"]->getRole() == "admin") {
     ?>
 
         <h3>Crear un foro</h3>

@@ -9,30 +9,42 @@
 
 <body>
 
-    <h1><?php echo $forum->getTitle() ?></h1><br>
+    <?php
+    echo "<h1>" . $forum->getTitle() . "</h1>";
+    echo "<h3>" . $forum->getDescription() . "</h3>";
+    echo "<hr><br>";
 
-    <h3>Crear un Hilo</h3>
-    <form action="index.php?c=theme&forum_id=<?php echo $forum->getId(); ?>" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="forum_id" value="<?php echo $forum->getId(); ?>">
-        <input type="text" name="themeTitle" placeholder="Titulo del hilo" required><br><br>
-        <textarea name="themeContent" placeholder="Contenido" required></textarea><br><br>
-        <label for="themeImage">Imagen: </label>
-        <input type="file" name="themeImage" accept="image/jpeg, image/png"><br><br>
-        <input type="submit" name="addTheme" value="Crear hilo">
-    </form>
+    if (isset($_SESSION['user'])) {
+    ?>
 
-    <br><br>
+        <h3>Crear un Hilo</h3>
+        <form action="index.php?c=theme&forum_id=<?php echo $forum->getId(); ?>" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="forum_id" value="<?php echo $forum->getId(); ?>">
+            <input type="text" name="themeTitle" placeholder="Titulo del hilo" required><br><br>
+            <textarea name="themeContent" placeholder="Contenido" required></textarea><br><br>
+            <label for="themeImage">Imagen: </label>
+            <input type="file" name="themeImage" accept="image/jpeg, image/png"><br><br>
+            <input type="submit" name="addTheme" value="Crear hilo">
+        </form>
+    <?php
+    } else {
+        echo "<p>Para crear un hilo debes <a href='index.php?c=login&login=1'>iniciar sesión.</a></p>";
+    }
+    ?>
+
+    <br><hr>
 
     <h3>Todos los hilos</h3>
+    <hr>
     <?php
     if ($themes) {
         foreach ($themes as $theme) {
-            echo "<h4><a href='index.php?c=theme&theme_id=" . $theme->getId() . "'>" . $theme->getTitle() . "</a></h4>";
-            echo "<p>" . $theme->getContent() . "</p>";
+            echo "<h4><a href='index.php?c=theme&showTheme=1&theme_id=" . $theme->getId() . "'>" . $theme->getThemeTitle() . "</a></h4>";
+            echo "<p>" . $theme->getContent() . "</p><br>";
             if ($theme->getImage()) {
                 echo "<p><img src='" . $theme->getImage() . "' alt='Imagen del tema' width='200' height='150'></p><br>";
             }
-            echo "<br><br>";
+            echo "<hr><br>";
         }
     } else {
         echo "<p>No hay hilos creados en este foro.</p>";
