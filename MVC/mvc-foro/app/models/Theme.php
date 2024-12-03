@@ -12,6 +12,9 @@ class Theme
     private $user;
     private $forum;
     private $hidden;
+    private $comments;
+
+
     public function __construct($data)
     {
         $this->id = $data['theme_id'];
@@ -56,5 +59,13 @@ class Theme
     public function getForum()
     {
         return $this->forum;
+    }
+
+    public function getComments()
+    {
+        if (!$this->comments) {
+            $this->comments = ThemeRepository::getCommentsByTheme($this);;
+        }
+        return $this->comments;
     }
 }
