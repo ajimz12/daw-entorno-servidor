@@ -38,7 +38,7 @@ if (isset($_POST['addForum'])) {
 
 if (isset($_GET['showForum'])) {
     $forum = ForumRepository::getForumById($_GET['forum_id']);
-    $themes = $forum->getThemes();
+    // $themes = $forum->getThemes();
     require_once("views/forumView.phtml");
     exit();
 }

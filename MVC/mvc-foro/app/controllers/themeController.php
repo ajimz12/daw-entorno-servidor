@@ -37,7 +37,6 @@ if (isset($_POST['addTheme'])) {
 
 if (isset($_GET['showTheme'])) {
     $theme = ThemeRepository::getThemeById($_GET['theme_id']);
-    $comments = $theme->getComments();
     require_once("views/themeView.phtml");
     exit();
 }

@@ -49,7 +49,7 @@
         echo "<p>Para comentar debes <a href='index.php?c=login&login=1'>iniciar sesión.</a></p>";
     }
 
-    foreach ($comments as $comment) {
+    foreach ($theme->getComments() as $comment) {
         if (!$comment->isHidden() || isset($SESSION_['user']) && $_SESSION["user"]->getRole() == 'admin') {
             echo "<hr>";
             echo "<img src='" . $comment->getUser()->getAvatar() . "' alt='" . $comment->getUser()->getUsername() . "' width='50' height='50'></img>";
