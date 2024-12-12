@@ -136,7 +136,7 @@ class PlaylistRepository
             if ($playlistIdRow = $playlistIdResult->fetch_assoc()) {
                 $playlistId = $playlistIdRow['id'];
 
-                return self::updatePlaylistDuration($playlistId);
+                self::updatePlaylistDuration($playlistId);
             }
         }
 
@@ -169,6 +169,6 @@ class PlaylistRepository
         $db = Connect::connection();
         $userId = $_SESSION['user']->getId();
         $query = "INSERT INTO favorites (id_user, id_playlist) VALUES ('$userId', '" . $playlist->getId() . "')";
-        return $db->query($query);
+        $db->query($query);
     }
 }
