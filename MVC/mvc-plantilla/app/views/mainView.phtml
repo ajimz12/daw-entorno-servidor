@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista Principal</title>
+</head>
+
+<body>
+
+    <?php
+
+    if (!isset($_SESSION["user"])) {
+        echo "<p>Bienvenido, puedes iniciar sesión <a href='index.php?c=user&login=1'>aquí</a></p><br>";
+    } else {
+        echo "<h3>Bienvenido, " . $_SESSION["user"]->getUsername() . "</h3>";
+        echo "<a href='index.php?c=user&logout=1'>Cerrar sesión</a><br><br>";
+    }
+
+    ?>
+
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+</head>
+
+<body>
+
+    <h2>Registro</h2>
+    <?php if (isset($info)) echo "<p style='color:red;'>$info</p>"; ?>
+    <form action="index.php?c=user" method="POST">
+        <input type="text" name="username" placeholder="Nombre de usuario" required><br><br>
+        <input type="password" name="password" placeholder="Contraseña" required><br><br>
+        <input type="submit" name="register" value="Registrarse">
+    </form><br>
+    <a href="index.php?c=user&login=1">Volver</a>
+
+</body>
+
+</html>
